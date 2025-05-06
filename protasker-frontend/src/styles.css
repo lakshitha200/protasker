@@ -1,0 +1,67 @@
+/* ===== Base Styles ===== */
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    /* Light theme */
+    --primary: #7968ff;
+    --primary-light: #7E76F9;
+    --secondary: #a29bfe;
+    --accent: #ff00cc;
+    --dark: #2d3436;
+    --light: #f5f6fa;
+    
+    --black: #000;
+    --white: #fff;
+    /* --bgwhite: #fff; */
+    --text1: #636e72;
+    --text2: #999;
+    --box-shadow1: rgba(0,0,0,0.05);
+    --hover1: #5945ec;
+    --hover2: rgb(225, 225, 225);
+    --hover3: #f8fafc;
+
+    /* background */
+    --bg-light: #F8F9FD;
+    --light2: rgb(236, 236, 236);
+    --bg-white: #FFFFFF;
+
+    /* text */
+    --text-dark: #2E2E48;
+    --text-medium: #6A6A8B;
+    --text-light: #A5A5BA;
+
+
+  }
+  
+  [data-theme="dark"] {
+    /* Dark theme */
+    --dark: #f5f6fa !important;
+    --black: #fff !important;
+    --white: #000 !important;
+    --text1: #f5f6fa  !important;
+    --text2: #f5f6fa  !important;
+    --hover3: rgba(255, 255, 255, 0.338)  !important;
+
+    
+    /* background */
+    --bg-light: #000  !important;
+    --bg-white: rgba(255, 255, 255, 0.142) !important;
+    /* text */
+    --text-dark: #f5f6fa;
+    --text-medium: #f5f6fa;
+    --text-light: #f5f6fa;
+
+  }
+  
+  body {
+    background: var(--bg-light);
+    color: var(--text-dark);
+    transition: background 0.3s, color 0.3s;
+  }
+
+a{
+    text-decoration: none;
+ }

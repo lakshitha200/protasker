@@ -1,0 +1,80 @@
+/* Notification Styling (matches your design) */
+.notification-popup {
+    width: 400px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+    font-family: 'Arial', sans-serif;
+    border-left: 4px solid #5284c2;
+}
+
+.notification-content {
+    display: flex;
+    padding: 15px;
+}
+
+.icon-container {
+    padding-right: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.text-container {
+    flex: 1;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    font-size: 18px;
+    color: #888;
+}
+
+.notification-title {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-size: 16px;
+}
+
+.notification-message {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+/* Status Types */
+.notification-popup.success {
+    border-left-color: #4CAF50;
+}
+
+.notification-popup.error {
+    border-left-color: #f44336;
+}
+
+.notification-popup.warning {
+    border-left-color: #ff9800;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+.notification-popup.fade-out {
+    animation: fadeOut 0.2s ease-in forwards;
+}

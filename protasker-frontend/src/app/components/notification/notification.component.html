@@ -1,0 +1,248 @@
+   
+    <div class="notification-container">
+        <div class="notification-header">
+            <h2>Your Notifications</h2>
+            <div class="notification-actions">
+                <button class="action-btn" id="mark-all-read"><i class="fas fa-check-double"></i> Mark All Read</button>
+                <button class="action-btn" id="clear-all"><i class="fas fa-trash"></i> Clear All</button>
+            </div>
+        </div>
+        
+        <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="message"><i class="fas fa-envelope"></i> Messages</button>
+            <button class="filter-btn" data-filter="alert"><i class="fas fa-bell"></i> Alerts</button>
+            <button class="filter-btn" data-filter="success"><i class="fas fa-check-circle"></i> Success</button>
+            <button class="filter-btn" data-filter="error"><i class="fas fa-exclamation-circle"></i> Errors</button>
+            <button class="filter-btn" data-filter="update"><i class="fas fa-sync-alt"></i> Updates</button>
+        </div>
+        
+        <div class="notification-list" id="garden-container">
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">New Message from Sarah</div>
+                    <div class="notification-text">Hey! Just wanted to check if you're still on for lunch tomorrow?</div>
+                    <div class="notification-time">2 minutes ago</div>
+                </div>
+                <div class="notification-badge"></div>
+            </div>
+            <!-- Notification 2 -->
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Meeting Reminder</div>
+                    <div class="notification-text">Team standup meeting starts in 15 minutes</div>
+                    <div class="notification-time">1 hour ago</div>
+                </div>
+                <div class="notification-badge"></div>
+            </div>
+            
+            <!-- Notification 3 -->
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Upload Complete</div>
+                    <div class="notification-text">Your file "Project_Proposal.pdf" has been successfully uploaded</div>
+                    <div class="notification-time">3 hours ago</div>
+                </div>
+                <div class="notification-badge"></div>
+            </div>
+            
+            <!-- Notification 4 -->
+            <div class="notification-item unread">
+                <div class="notification-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">New Connection</div>
+                    <div class="notification-text">Alex Johnson has accepted your connection request</div>
+                    <div class="notification-time">5 hours ago</div>
+                </div>
+                <div class="notification-badge"></div>
+            </div>
+            
+        </div>
+        <div class="empty-garden">
+            <i class="fas fa-seedling"></i>
+            <h3>Your Notification List is empty</h3>
+            <p>No notifications to display. Check back later!</p>
+        </div>
+    </div>
+
+    <!-- <script>
+        // Sample notification data
+        const notifications = [
+            {
+                id: 1,
+                type: 'message',
+                title: 'New message from Sarah',
+                content: 'Hey! Just wanted to check if you\'re still on for lunch tomorrow?',
+                time: '2 hours ago',
+                read: false,
+                icon: 'fas fa-envelope',
+                stemHeight: 10,
+                bloomColor: '#6a5acd'
+            },
+            {
+                id: 2,
+                type: 'success',
+                title: 'Payment successful',
+                content: 'Your subscription payment of $9.99 has been processed successfully.',
+                time: '5 hours ago',
+                read: true,
+                icon: 'fas fa-check-circle',
+                stemHeight: 15,
+                bloomColor: '#77dd77'
+            },
+            {
+                id: 3,
+                type: 'alert',
+                title: 'Security alert',
+                content: 'A new device logged into your account from New York. Was this you?',
+                time: '1 day ago',
+                read: false,
+                icon: 'fas fa-shield-alt',
+                stemHeight: 20,
+                bloomColor: '#ffb347'
+            },
+            {
+                id: 4,
+                type: 'update',
+                title: 'System update available',
+                content: 'Version 2.3.1 is now available with new features and bug fixes.',
+                time: '2 days ago',
+                read: true,
+                icon: 'fas fa-sync-alt',
+                stemHeight: 25,
+                bloomColor: '#84b6f4'
+            },
+            {
+                id: 5,
+                type: 'error',
+                title: 'Upload failed',
+                content: 'Your file "presentation.pdf" failed to upload due to network issues.',
+                time: '3 days ago',
+                read: false,
+                icon: 'fas fa-exclamation-triangle',
+                stemHeight: 30,
+                bloomColor: '#ff6961'
+            },
+            {
+                id: 6,
+                type: 'message',
+                title: 'Team announcement',
+                content: 'Monthly team meeting has been rescheduled to Friday at 2 PM.',
+                time: '4 days ago',
+                read: true,
+                icon: 'fas fa-bullhorn',
+                stemHeight: 35,
+                bloomColor: '#6a5acd'
+            }
+        ];
+
+        // DOM elements
+        const gardenContainer = document.getElementById('garden-container');
+        const markAllReadBtn = document.getElementById('mark-all-read');
+        const clearAllBtn = document.getElementById('clear-all');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        // Render notifications
+        function renderNotifications(filter = 'all') {
+            gardenContainer.innerHTML = '';
+            
+            const filteredNotifications = filter === 'all' 
+                ? notifications 
+                : notifications.filter(n => n.type === filter);
+            
+            if (filteredNotifications.length === 0) {
+                gardenContainer.innerHTML = `
+                    <div class="empty-garden">
+                        <i class="fas fa-seedling"></i>
+                        <h3>Your garden is empty</h3>
+                        <p>No notifications to display. Check back later!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredNotifications.forEach(notification => {
+                const plant = document.createElement('div');
+                plant.className = `notification-plant ${notification.read ? 'read' : 'unread'}`;
+                plant.dataset.id = notification.id;
+                plant.dataset.type = notification.type;
+                
+                plant.innerHTML = `
+                    <div class="plant-type ${notification.type}"></div>
+                    <div class="plant-header">
+                        <div class="plant-icon" style="background: ${getTypeColor(notification.type)}">
+                            <i class="${notification.icon}"></i>
+                        </div>
+                        <div class="plant-title">${notification.title}</div>
+                    </div>
+                    <div class="plant-content">${notification.content}</div>
+                    <div class="plant-footer">
+                        <div class="plant-time">${notification.time}</div>
+                        ${notification.read ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>'}
+                    </div>
+                    <div class="plant-stem" style="height: ${notification.stemHeight}px; background: ${getTypeColor(notification.type)}"></div>
+                    <div class="plant-bloom" style="background: ${notification.bloomColor}"></div>
+                `;
+                
+                gardenContainer.appendChild(plant);
+                
+                // Add click event
+                plant.addEventListener('click', () => {
+                    if (!notification.read) {
+                        notification.read = true;
+                        renderNotifications(filter);
+                    }
+                    // In a real app, you might navigate to the notification content
+                    alert(`Opening notification: ${notification.title}`);
+                });
+            });
+        }
+        
+        // Get color based on notification type
+        function getTypeColor(type) {
+            const colors = {
+                message: '#6a5acd',
+                alert: '#ffb347',
+                success: '#77dd77',
+                error: '#ff6961',
+                update: '#84b6f4'
+            };
+            return colors[type] || '#6a5acd';
+        }
+        
+        // Event listeners
+        markAllReadBtn.addEventListener('click', () => {
+            notifications.forEach(n => n.read = true);
+            renderNotifications(document.querySelector('.filter-btn.active').dataset.filter);
+        });
+        
+        clearAllBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all notifications?')) {
+                notifications.length = 0;
+                renderNotifications();
+            }
+        });
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderNotifications(btn.dataset.filter);
+            });
+        });
+        
+        // Initial render
+        renderNotifications();
+    </script> -->
+

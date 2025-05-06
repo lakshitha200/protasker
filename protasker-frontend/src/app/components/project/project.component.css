@@ -1,0 +1,377 @@
+/*  --card-shadow: 0 10px 20px -5px rgba(0,0,0,0.1); */
+
+.project-container {
+    padding: 20px 15px;
+    width: 100%;
+    overflow-y: auto !important;
+}
+
+/* Header */
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title h2 {
+    margin-left: 20px;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.header-title p {
+    color: var(--text-medium);
+}
+
+.project-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.new-project-btn {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(108, 92, 231, 0.2);
+}
+
+.new-project-btn i {
+    margin-right: 0.5rem;
+}
+
+.view-toggle {
+    background: var(--bg-white);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.view-option {
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+
+}
+.view-option:hover {
+    background: var(--primary);
+    color: white;
+}
+.view-option.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* Project Filters */
+.project-filters {
+    display: flex;
+    gap: 1rem;
+    margin-top: -15px;
+    margin-bottom: 10px;
+    background-color: var(--bg-white);
+    border-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 0 5px 15px var(--box-shadow1);
+}
+
+.filter-btn {
+    border-radius: 50px;
+    border: 1px solid var(--dark);
+    outline: none;
+    background: var(--bg-white);
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.4s ease;
+}
+.filter-btn:hover {
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: white;
+}
+.filter-btn.active {
+    background-color: var(--primary);
+    color: white;
+    border: 1px solid var(--primary);
+}
+
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -10px rgba(0,0,0,0.15);
+}
+
+.project-banner {
+    height: 120px;
+    position: relative;
+}
+
+.project-banner.agile {
+    background: linear-gradient(135deg, var(--agile), #a29bfe);
+}
+
+.project-banner.waterfall {
+    background: linear-gradient(135deg, var(--waterfall), #55efc4);
+}
+
+.project-banner.standard {
+    background: linear-gradient(135deg, var(--standard), #74b9ff);
+}
+
+.project-banner.completed {
+    background: linear-gradient(135deg, var(--completed), #b2bec3);
+}
+
+.project-methodology {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255,255,255,0.9);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.project-content {
+    padding: 1.5rem;
+}
+
+.project-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.project-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.project-team {
+    display: flex;
+}
+
+.team-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -8px;
+    background: #dfe6e9;
+    overflow: hidden;
+}
+
+.team-avatar:first-child {
+    margin-left: 0;
+}
+
+.team-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.project-description {
+    color: #636e72;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+/* Agile Specific */
+.agile-metrics {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.agile-metric {
+    text-align: center;
+    flex: 1;
+}
+
+.metric-value {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.metric-label {
+    font-size: 0.7rem;
+    color: #636e72;
+    text-transform: uppercase;
+}
+
+.sprint-progress {
+    margin-bottom: 1rem;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+}
+
+.progress-bar {
+    height: 6px;
+    background: #dfe6e9;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 3px;
+}
+
+.agile .progress-fill {
+    background: var(--agile);
+}
+
+.waterfall .progress-fill {
+    background: var(--waterfall);
+}
+
+.standard .progress-fill {
+    background: var(--standard);
+}
+
+.completed .progress-fill {
+    background: var(--completed);
+}
+
+/* Waterfall Specific */
+.waterfall-phase {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.phase-status {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 0.8rem;
+    flex-shrink: 0;
+}
+
+.phase-status.completed {
+    background: var(--waterfall);
+}
+
+.phase-status.current {
+    background: #fdcb6e;
+    animation: pulse 2s infinite;
+}
+
+.phase-status.pending {
+    background: #dfe6e9;
+}
+
+.phase-info {
+    flex-grow: 1;
+}
+
+.phase-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.phase-date {
+    font-size: 0.7rem;
+    color: #636e72;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(253, 203, 110, 0.7); }
+    70% { box-shadow: 0 0 0 8px rgba(253, 203, 110, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(253, 203, 110, 0); }
+}
+
+/* Project Footer */
+.project-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.project-due {
+    font-size: 0.8rem;
+}
+
+.project-due i {
+    margin-right: 0.3rem;
+}
+
+.project-actions-menu {
+    color: #636e72;
+    cursor: pointer;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    grid-column: 1 / -1;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: #b2bec3;
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: #636e72;
+    max-width: 500px;
+    margin: 0 auto 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .project-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .view-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+}

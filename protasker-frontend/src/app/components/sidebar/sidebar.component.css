@@ -1,0 +1,91 @@
+/* .sidebar-container{
+    width: 280px;
+    height: 100vh;
+} */
+.side-bar{
+    width: 280px;
+    height: 100vh;
+    /* flex-shrink: 0; */
+    background-color: var(--bg-white) !important;
+}
+.nav-link{
+    padding: 0.75rem 1rem !important;
+    color: var(--text-medium) !important;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+}
+.nav-link:hover {
+    background-color: rgba(94, 86, 232, 0.1);
+    color: var(--primary) !important;
+}
+
+.nav-link.active {
+    background-color: rgba(94, 86, 232, 0.1) !important;
+    color: var(--primary) !important;
+    font-weight: 500 !important;
+}
+
+/* side bar collapsing */
+
+.collapse-btn{
+    width: 12px;
+    height: 100vh;
+    z-index: 1000;
+    cursor: pointer;
+}
+.collapse-btn i{
+    background-color: var(--primary);
+    padding: 10px 13px;
+    border-radius: 50%;
+    color: var(--white);
+    top: 15px;
+    left: -20px;
+}
+
+.collapse.collapse-horizontal + .collapse-btn {
+    background-color: var(--primary);
+    transition: .2s;
+}
+.collapse.collapse-horizontal + .collapse-btn .fa-angle-right {
+    display: flex !important;
+}
+.collapse.collapse-horizontal + .collapse-btn .fa-angle-left {
+    display: none !important;
+}
+.collapse.collapse-horizontal + .collapse-btn i {
+    background-color: var(--primary);
+    left: 2px;
+    transition: .2s;
+    border: 1px solid white;
+}
+
+.collapse.collapse-horizontal.show + .collapse-btn {
+    background-color: transparent;
+}
+.collapse.collapse-horizontal.show + .collapse-btn i{
+    left: -20px;
+}
+.collapse.collapse-horizontal.show + .collapse-btn .fa-angle-left{
+    display: flex !important; 
+}
+.collapse.collapse-horizontal.show + .collapse-btn .fa-angle-right{
+    display: none !important; transition: .4s;
+}
+
+
+.theme-toggle {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); */
+}   
+.theme-toggle i{
+    margin-top: 5px;
+}

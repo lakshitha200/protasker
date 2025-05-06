@@ -1,0 +1,6 @@
+<div class="notifications-container">
+    <app-notification 
+      *ngFor="let notification of notifications$ | async"
+      [notification]="notification"
+    ></app-notification>
+  </div>

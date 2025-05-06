@@ -1,0 +1,12 @@
+<div class="notification-popup" [class]="notification.type" [class.fade-out]="isClosing">
+    <div class="notification-content">
+      <div class="icon-container">
+        <img [src]="getIconPath()" [alt]="notification.type" class="notification-icon">
+      </div>
+      <div class="text-container">
+        <span class="close-btn" (click)="dismiss()">&times;</span>
+        <h3 class="notification-title">{{ notification.title }}</h3>
+        <p class="notification-message">{{ notification.message }}</p>
+      </div>
+    </div>
+  </div>

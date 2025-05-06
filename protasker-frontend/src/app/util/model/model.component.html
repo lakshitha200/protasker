@@ -1,0 +1,11 @@
+
+
+<!-- Modal -->
+<div *ngIf="modal.isOpen" class="modal-overlay" (click)="modal.hide()">
+    <div class="modal-box">
+      <span class="close-btn" (click)="modal.hide()">&times;</span>
+      <h5>{{modal.title}}</h5>
+      <p>{{modal.message}}</p>
+      <button class="btn" (click)="modal.hide()">Close</button>
+    </div>
+</div>

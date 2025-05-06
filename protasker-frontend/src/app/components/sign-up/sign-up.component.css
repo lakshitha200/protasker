@@ -1,0 +1,213 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 75px;
+    margin-bottom: 30px;
+    width: 100%;
+    height: 100%;
+}
+
+.form-container {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    background-color: var(--bg-white);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.form-box {
+    padding: 30px;
+    position: relative;
+}
+
+.form-title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--primary);
+    font-weight: 600;
+
+}
+
+/* ===== Input Fields ===== */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 10px 10px 45px;
+    border: 2px solid #eee;
+    border-radius: 10px !important;
+    font-size: 15px;
+    background-color: transparent;
+    color: var(--dark);
+    transition: all 0.3s;
+}
+
+.input-field:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+}
+input[type="checkbox"]:checked {
+    accent-color: var(--primary); /* Green color */
+}
+
+/* ===== Submit Button ===== */
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--primary);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: var(--hover1);
+}
+
+/* ===== Social Login ===== */
+.social-divider {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.social-divider::before, 
+.social-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+    margin: 0 10px;
+}
+
+.social-login {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-btn {
+    width: 100%;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+    background-color: var(--light2);
+
+}
+.social-btn img{
+    width: 30px;
+    height: 30px;
+}
+.social-btn span{
+    color: #2E2E48;
+}
+.social-btn:hover {
+    background-color: var(--hover2);
+}
+
+/* ===== Floating Shapes (Decorative) ===== */
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: -1;
+}
+
+.signup-in-link{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: var(--text2);
+}
+a{
+   color: var(--primary);
+}
+
+.input-field.is-invalid {
+    border-color:  red;
+    outline-color: red;
+}
+
+.error-message {
+    margin-top: -18px;
+    color: red;
+    margin-bottom: 7px;
+}
+
+/* loader */
+.loader-container{
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    position: relative;
+  }
+  .loader::after,
+  .loader::before {
+    content: '';  
+    box-sizing: border-box;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+    animation: animloader 2s linear infinite;
+  }
+  .loader::after {
+    animation-delay: 1s;
+  }
+  
+  @keyframes animloader {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+

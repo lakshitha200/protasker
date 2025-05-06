@@ -1,0 +1,67 @@
+<div class="container">
+        <!-- Forms Container -->
+    <div class="form-container">
+        <div class="form-box">
+            <!-- Login Form -->
+            <form class="signin-form" (ngSubmit)="submitSignInForm()" #signInForm="ngForm">
+                <h2 class="form-title text-center">Welcome Back !</h2>
+
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="text" class="input-field" placeholder="Email or username" name="usernameOrEmail"  ngModel
+                     [ngClass]="{ 'is-invalid': usernameOrEmailError }" required>
+                </div>
+                <p class="error-message" *ngIf="submitted && usernameOrEmailError">
+                    <small>{{ usernameOrEmailError }}</small>
+                </p>
+                
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" class="input-field" placeholder="Password" name="password" ngModel 
+                    [ngClass]="{ 'is-invalid': passwordError }" required>
+                </div>
+                <p class="error-message" *ngIf="submitted && passwordError">
+                    <small>{{ passwordError }}</small>
+                </p>
+                <div class="mb-1 mx-1 float-end" style="font-size: 14px;">
+                    <span class="froget-password" (click)="openFrogetPasswordModel()">Forgot password?</span>
+                </div>
+                <button type="submit" class="submit-btn">Log In</button>
+                
+                <div class="social-divider">or continue with</div>
+                
+                <div class="social-login">
+                    <div class="social-btn">
+                        <img src="icons/google.png" alt="">
+                        <span> Signed in with Google </span>
+                    </div>
+                </div>
+                <div class="signup-in-link">
+                    Don't have an account? <a class="mx-2"  [routerLink]="'/sign-up'">Sign up</a>
+                </div>
+            </form>               
+        </div>
+    </div>
+    
+</div>
+
+<!-- Modal -->
+<div *ngIf="isOpen" class="modal-overlay" >
+    <div class="modal-box">
+      <span class="close-btn" (click)="close()">&times;</span>
+      <h5>Forgot Password</h5>
+      <p>Enter your email and we'll send you a reset link.</p>
+      <input class="form-control bg-light" type="email" name="email" #emailInput
+      [ngClass]="{ 'is-invalid': emailError }" value="" placeholder="Ex: example@gmail.com" >
+      <p class="error-message mt-1" *ngIf="emailError">
+        <small>{{ emailError }}</small>
+      </p>
+      <div class="d-flex gap-2 justify-content-end mt-3">
+        <button class="btn model-button" (click)="frogetPassword(emailInput)">Send</button>
+        <button class="btn btn-danger" (click)="close()">Close</button>
+      </div>
+    </div>
+</div>
+
+
+

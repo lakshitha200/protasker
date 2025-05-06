@@ -1,0 +1,85 @@
+
+<div class="container">
+    <div class="form-container">
+    
+        <!-- Forms Container -->
+        <div class="form-box">
+            <!-- Register Form -->
+            <form class="signup-form" (ngSubmit)="submitSignUpFrom()" #signupForm="ngForm">
+                <h2 class="form-title text-center">Join Our Community</h2>
+                <p class="text-center" style="margin-top: -15px; color: var(--text1);"><small>Start your journey with us today</small></p>
+                  
+                <div class="d-flex gap-2">
+                    <div class="w-100">
+                        <div class="input-group">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" class="input-field" placeholder="Username" name="username" ngModel
+                            [ngClass]="{ 'is-invalid': submitted && usernameError}" required>
+                        </div>
+                        <p class="error-message" *ngIf="submitted && usernameError">
+                            <small>{{ usernameError }}</small>
+                        </p>
+                    </div>
+                    
+                    <div class="w-100">
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" class="input-field" placeholder="Email" 
+                            [ngClass]="{ 'is-invalid': submitted && emailError }" name="email" ngModel required>
+                        </div>
+                        <p class="error-message" *ngIf="submitted && emailError">
+                            <small>{{ emailError }}</small>
+                          </p>
+                    </div>
+                    
+                </div>
+                
+                <div class="d-flex gap-2">
+                    <div class="w-100">
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" class="input-field" placeholder="Password" name="password" 
+                            [ngClass]="{ 'is-invalid': submitted && passwordError }" ngModel required>
+                        </div>
+                        <p class="error-message" *ngIf="submitted && passwordError">
+                            <small>{{ passwordError }}</small>
+                          </p>
+                    </div>
+                    
+                    <div class="w-100">
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" class="input-field" placeholder="Confirm Password" name="confirmPasswrod" 
+                            [ngClass]="{ 'is-invalid': submitted && confirmPasswordError }" ngModel required>
+                        </div>
+                        <p class="error-message" *ngIf="submitted && confirmPasswordError">
+                            <small>{{ confirmPasswordError }}</small>
+                          </p>
+                    </div>
+                  
+                </div>
+               
+               
+                <button type="submit" class="submit-btn">Sign up</button>
+                
+                <div class="social-divider">or continue with</div>
+                
+                <div class="social-login">
+                    <div class="social-btn">
+                        <img src="../icons/google.png" alt="">
+                        <span> Signed in with Google </span>
+                    </div>
+                </div>
+                <div class="signup-in-link">
+                    Already have an account? <a class="mx-2" [routerLink]="'/sign-in'">login</a>
+                </div>
+            </form>               
+        </div>
+    </div>
+</div>
+<app-loader-sprinner></app-loader-sprinner>
+<!-- <div class="loader-container">
+    <span class="loader"></span>
+</div> -->
+
+

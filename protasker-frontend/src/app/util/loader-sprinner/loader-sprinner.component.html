@@ -1,0 +1,12 @@
+<ng-container *ngIf="loaderState$ | async as state">
+    <div *ngIf="state.loading"
+      [ngClass]="{
+        'fullscreen-overlay': state.mode === 'fullscreen',
+        'inline-wrapper': state.mode === 'inline'
+      }"
+    >
+      <div *ngIf="state.type === 'spinner'" class="spinner"></div>
+      <div *ngIf="state.type === 'dots'" class="dots">Loading<span>.</span><span>.</span><span>.</span></div>
+      <div *ngIf="state.type === 'bar'" class="bar-loader"><div class="bar"></div></div>
+    </div>
+</ng-container>
