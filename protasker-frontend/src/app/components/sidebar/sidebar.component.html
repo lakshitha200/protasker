@@ -36,14 +36,14 @@
                     <span> Settings </span>
                 </a>
             </div>
-            <div>
+            <div class="others">
                 <button class="theme-toggle" id="themeToggle" onclick="toggleTheme(this)">
                     <i class="fas fa-moon"></i> 
                 </button>
             </div>
             <hr>
-            <div class="dropdown mt-auto">
-                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+            <div class="dropdown nav-link mt-auto d-flex justify-content-between align-items-center">
+                <a href="#" class="d-flex align-items-center text-decoration-none " data-bs-toggle="dropdown">
                 <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="" width="32" height="32" class="rounded-circle me-2">
                 <strong>John Doe</strong>
                 </a>
@@ -53,10 +53,11 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
                 </ul>
+                <div class="active-dot"></div>
             </div>
-            </div>
+        </div>
     </div>
-    <div class="collapse-btn position-relative" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+    <div class="collapse-btn position-relative" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" (click)="showAndHideSideBar()">
         <i class="fa-solid fa-angle-left position-absolute"></i>
         <i class="fa-solid fa-angle-right position-absolute"></i>
     </div>
