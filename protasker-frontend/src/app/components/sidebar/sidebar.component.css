@@ -1,7 +1,7 @@
-/* .sidebar-container{
-    width: 280px;
-    height: 100vh;
-} */
+.sidebar-container{
+    position: fixed;
+
+}
 .side-bar{
     width: 280px;
     height: 100vh;
@@ -88,4 +88,26 @@
 }   
 .theme-toggle i{
     margin-top: 5px;
+}
+
+.dropdown{
+    background-color: var(--bg-white);
+    border: 1px solid rgba(94, 86, 232, 0.1);
+    border-radius: 10px;
+}
+
+a{
+    text-decoration: none;
+    color: var(--text-dark);
+}
+
+.active-dot{
+    width: 10px;
+    height: 10px;
+    background-color: #74e126;
+    border-radius: 50%;
+}
+
+.others{
+    padding: 0.75rem 1rem;
 }

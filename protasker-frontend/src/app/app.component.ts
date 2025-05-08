@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { CommonModule } from '@angular/common';
@@ -16,10 +16,14 @@ import { NotificationService } from './services/Notification.service';
 })
 export class AppComponent {
   title = 'protasker-frontend';
+
+  @ViewChild("sideViewComponents") sideViewComponents:any;
+
   showHeader = true;
   showSideBar = true;
   showModelWindow = true;
   isLoading = false;
+  isSidebarCollapsed = false;
 
   ngOnInit() {
       // Simple success notification
@@ -55,5 +59,7 @@ this.notification.error('Error', 'Failed to save changes');
 
   }
 
-
+  handlesideBarEvent() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }
