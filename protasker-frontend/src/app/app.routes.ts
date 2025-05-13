@@ -17,7 +17,6 @@ export const routes: Routes = [
     { path: 'notification', component: NotificationComponent },
     { path: 'project', component: ProjectComponent },
     { path: 'user-profile', component: UserProfileComponent },
-    { path: 'verify-email', component: VerificationComponent },
     { path: 'reset-password', component: VerificationComponent },
     {
         path: 'verify-email',

@@ -1,9 +1,6 @@
 package com.protasker.protasker_backend.exception.GlobalExceptions;
 
-import com.protasker.protasker_backend.exception.CusExceptions.AuthException;
-import com.protasker.protasker_backend.exception.CusExceptions.RegistrationException;
-import com.protasker.protasker_backend.exception.CusExceptions.TokensException;
-import com.protasker.protasker_backend.exception.CusExceptions.UserAlreadyExistsException;
+import com.protasker.protasker_backend.exception.CusExceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,6 +51,18 @@ public class AuthServiceExceptionHandler {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
 //        problem.setType(URI.create("http://localhost:8080/api/auth/login"));
         problem.setTitle("Token Error");
+        problem.setDetail(exception.getMessage());
+        problem.setProperty("timestamp", Instant.now());
+        return problem;
+    }
+
+
+    @ExceptionHandler(CookieException.class)
+    public ProblemDetail handleCookieException(CookieException exception){
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+//        problem.setType(URI.create("http://localhost:8080/api/auth/login"));
+        problem.setTitle("Cookie Error");
         problem.setDetail(exception.getMessage());
         problem.setProperty("timestamp", Instant.now());
         return problem;

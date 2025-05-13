@@ -5,12 +5,14 @@ import com.protasker.protasker_backend.dto.GenericResponseDto;
 import com.protasker.protasker_backend.dto.LoginRequestDto;
 import com.protasker.protasker_backend.dto.RegisterRequestDto;
 import com.protasker.protasker_backend.model.User;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
     GenericResponseDto register(RegisterRequestDto registerRequest);
-    AuthResponseDto login(LoginRequestDto loginRequest);
+    GenericResponseDto login(LoginRequestDto loginRequest, HttpServletResponse response);
 
-    AuthResponseDto refreshToken(String refreshToken);
+    GenericResponseDto refreshToken(HttpServletRequest request, HttpServletResponse response);
 
     void logout(String refreshToken);
 
@@ -21,4 +23,6 @@ public interface AuthService {
     GenericResponseDto resetPassword(String token, String newPassword);
 
     GenericResponseDto resendVerifyEmail(String email);
+
+    boolean checkAuthStatus(HttpServletRequest request);
 }

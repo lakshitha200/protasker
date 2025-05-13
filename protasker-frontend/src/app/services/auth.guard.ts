@@ -1,20 +1,26 @@
-import { Injectable } from '@angular/core';
+
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { AuthService } from './AuthService';
+import { catchError, map, Observable, of } from 'rxjs';
 
 
-export const authGuard: CanActivateFn = (): boolean => {
-    const token = localStorage.getItem('JAT');
-    const auth = inject(AuthService);
-    const router = inject(Router);
-  
-    if (!auth.isLoggedIn()) {
-      router.navigateByUrl('/sign-in');
-      return false;
-    }
-    return true;
-  };
+export const authGuard: CanActivateFn = (): Observable<boolean> => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  return authService.checkAuthStatus().pipe(
+    map(res => {
+      console.log(res);
+      return true; // Allow access
+    }),
+    catchError(err => {
+      console.log(err);
+      // router.navigate(['/sign-in']);
+      return of(false); // Block access
+    })
+  );
+};
 
  
   

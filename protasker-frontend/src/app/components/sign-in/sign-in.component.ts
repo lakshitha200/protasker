@@ -45,14 +45,9 @@ export class SignInComponent {
       next: response => {
         this.hideLoader();
         console.log('Signin successful!', response);
-        if (response.accessToken) {
-          this.authService.setAccessToken = response.accessToken;
-          this.authService.setRefreshToken =  response.refreshToken;
-          this.router.navigateByUrl("/dashboard").then(() => {
-            window.location.reload();
-          });
-
-        }
+        this.router.navigateByUrl("/dashboard").then(() => {
+          window.location.reload();
+        });
         this.signInForm.reset();
       },
       error: err => {

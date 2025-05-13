@@ -56,8 +56,11 @@ public class SecurityConfig {
                     authorize.anyRequest().authenticated();
                 })
                 .oauth2Login(oauth -> oauth
-                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService)))
-//                        .successHandler(oauth2AuthSuccessHandler))
+                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+                        .successHandler((request, response, authentication) -> {
+                            // Customize the redirect URL here
+                            response.sendRedirect("http://localhost:4200/dashboard"); // Redirect to the dashboard after successful login
+                        }))
                 // Use stateless session management (required for JWT)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

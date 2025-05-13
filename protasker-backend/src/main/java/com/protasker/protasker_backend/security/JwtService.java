@@ -1,5 +1,7 @@
 package com.protasker.protasker_backend.security;
 
+import com.protasker.protasker_backend.exception.CusExceptions.AuthException;
+import com.protasker.protasker_backend.exception.CusExceptions.CookieException;
 import com.protasker.protasker_backend.exception.CusExceptions.TokensException;
 import com.protasker.protasker_backend.model.RefreshToken;
 import com.protasker.protasker_backend.model.User;
@@ -9,8 +11,11 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -69,6 +74,7 @@ public class JwtService {
 
     // validate JWT token
     public boolean validateToken(String token){
+        System.out.println("Validate token");
         Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build()
@@ -88,5 +94,33 @@ public class JwtService {
 
     public boolean isTokenExpired(RefreshToken token) {
         return token.getExpiryDate().isBefore(Instant.now());
+    }
+
+    public String extractRefreshTokenFromCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            throw new AuthException("Jwt Service: No cookies found in request!");
+        }
+        for (Cookie cookie : cookies) {
+            if ("refresh_token".equals(cookie.getName())) {
+                System.out.println("cookie.getName()) refresh: "+cookie.getName());
+                return cookie.getValue();
+            }
+        }
+        return null;
+    }
+
+    public String extractAccessTokenFromCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            throw new CookieException("Jwt Service: No cookies found in request!");
+        }
+        for (Cookie cookie : cookies) {
+            if ("access_token".equals(cookie.getName())) {
+                System.out.println("cookie.getName()) access: "+cookie.getName());
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }

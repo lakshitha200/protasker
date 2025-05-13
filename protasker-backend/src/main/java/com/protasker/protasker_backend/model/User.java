@@ -70,6 +70,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
+    @Column(name = "google_id", unique = true)
+    private String googleId;
+
     @Column(name = "user_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;

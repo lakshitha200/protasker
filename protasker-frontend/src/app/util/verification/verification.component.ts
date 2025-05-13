@@ -35,16 +35,13 @@ export class VerificationComponent implements OnInit,OnDestroy  {
   confirmPasswrod:string = "";
 
   ngOnInit(): void {
-
-    
-    this.isComplete= false;
+    this.isComplete = true;
     this.isError = false;
     console.log(this.route.snapshot)
-    // const token = this.route.snapshot.queryParamMap.get('token');
+    const token = this.route.snapshot.queryParamMap.get('token');
 
     // if (token) {
     //   const decoded: any = jwtDecode(token);
-    //   console.log(decoded)
     //   if(decoded.type != null && decoded.type != "" ){
     //     if(decoded.type == "email_verification"){
     //       this.email = decoded.sub;
@@ -57,13 +54,12 @@ export class VerificationComponent implements OnInit,OnDestroy  {
     //   .subscribe({
     //     next: () => {
     //       this.isComplete = true;
-
+    //       this.isError = false;
     //       // Let Angular update the UI before navigating
-    //       timer(3000).subscribe(() => {
-    //         this.ngZone.run(() => {
-    //           this.router.navigate(['/dashboard']);
-    //         });
-    //       });
+    //       setTimeout(()=>{
+    //         this.router.navigate(['/dashboard']);
+    //       },5000)
+   
     //     },
     //     error: () => {
     //       this.isError = true;

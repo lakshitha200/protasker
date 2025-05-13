@@ -1,27 +1,24 @@
 <div>
-    <!-- <div *ngIf="showSpinner" class="card" >  
-        <div class="text-spinner">Verifying your email</div>
-    </div>   -->
     
     <div *ngIf="isComplete" class="card success" >
-        <div class="success-icon">✓</div>
-        <h1>Email Verified!</h1>
-        <p>Your account is now active. You’ll be redirected shortly.</p>
+        <div class="icon text-center"><img src="../icons/success-filled.png" alt=""></div>
+        <h2 class="text-center mt-3">Email Verified!</h2>
+        <p class="text-center">Your account is now active. You’ll be redirected shortly.</p>
         <a href="/dashboard" class="btn">Go to Dashboard</a>
     </div>
     
-    <div *ngIf="isError" class="card error" >
-        <div class="error-icon">!</div>
-        <h1>Verification Failed</h1>
-        <p>This link is invalid or expired. Request a new verification email below.</p>
+    <div  *ngIf="isError" class="card error" >
+        <div class="icon text-center"><img src="../icons/error-face.png" alt=""></div>
+        <h2 class="text-center mt-3">Verification Failed</h2>
+        <p class="text-center">This link is invalid or expired. Request a new verification email below.</p>
         <button class="btn" (click)="resendVerificationEmail()">Resend Verification Email</button>
-        <p><small>Need help? <a href="/contact">Contact support</a>.</small></p>
+        <p class="mt-2"><small>Need help? <a href="/contact">Contact support</a>.</small></p>
     </div>
 
-    <div class="card resetpassword" >
+    <div ngIf="false" class="card resetpassword" >
         <!-- <div class="error-icon">!</div> -->
         <form action="" (ngSubmit)="submitResetPasswordFrom()" #signupForm="ngForm">
-            <h1>Enter your new password</h1>
+            <h4>Enter your new password</h4>
             <div class="w-100">
                 <div class="input-group">
                     <i class="fas fa-lock"></i>
