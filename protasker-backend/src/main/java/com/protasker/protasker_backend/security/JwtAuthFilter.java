@@ -2,6 +2,7 @@ package com.protasker.protasker_backend.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        String referer = request.getHeader("Referer");
+        if (referer == null || !referer.contains("localhost:4200")) {
+            // Reject or skip this request
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
+
+        String path = request.getRequestURI();
+
+        // 1. Skip auth for public endpoints
+        if (path.startsWith("/api/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         // Get JWT token from HTTP request
         String token = getTokenFromRequest(request);
 
@@ -47,6 +63,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     // Extract the token
     private String getTokenFromRequest(HttpServletRequest request){
+        // Try to get token from cookies first
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("access_token".equals(cookie.getName())) {
+                    System.out.println("cookie.getValue(): "+cookie.getValue());
+                    return cookie.getValue();  // Return the token from the cookie
+                }
+            }
+        }
         String bearerToken = request.getHeader("Authorization");
 
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")){

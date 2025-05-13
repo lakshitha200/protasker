@@ -5,51 +5,35 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, finalize, reduce, switchMap, throwError } from 'rxjs';
 
-let isVerificationInProgress = false;
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  console.log("works authInterceptor")
-  const authService = inject(AuthService);
-  const router = inject(Router);
+  const authService = inject(AuthService);  // Inject AuthService
+  const router = inject(Router);  // Inject Router
 
-  console.log("Intercepting:", req.url);
-
-  if (!req.url.includes('/api/')) {
+  // Skip token refresh for auth endpoints to avoid loops
+   if (req.url.includes('/auth/refresh') || req.url.includes('/auth/login')) {
     return next(req);
   }
 
-  const jwtToken = authService.accessToken;
-  const refreshToken = authService.refreshToken;
-  console.log("refreshToken "+jwtToken);
-  if (jwtToken && !authService.isTokenExpired(jwtToken)) {
-    console.log("jwtToken");
-        const clonedReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${jwtToken}`
-        }
-      });
-      return next(clonedReq);
-   
-  }
-
-  if (refreshToken && authService.isTokenExpired(jwtToken)) {
-    return authService.getRefreshToken(refreshToken).pipe(
-      switchMap(response => {
-        localStorage.setItem('JAT', response.accessToken);
-        const cloned = req.clone({
-          setHeaders: { Authorization: `Bearer ${response.accessToken}` }
-        });
-        return next(cloned);
-      }),
-      catchError(err => {
-        authService.logout();
-        router.navigateByUrl('/sign-in');
-        return throwError(() => err);
-      })
-    );
-  }
-
-  // // No token available at all
-  return next(req);
+  return next(req).pipe(
+    catchError((err) => {
+      console.log("Works Inspector");
+      // if (err.status === 401) {
+        
+      //   console.log("yes")
+      //   // Attempt token refresh
+      //   return authService.getRefreshToken().pipe(
+      //     switchMap(() => next(req)), // Retry original request (cookies auto-send)
+      //     catchError((refreshErr) => {
+      //       // Redirect to login if refresh fails
+      //       authService.logout();
+      //       router.navigate(['/sign-in']);
+      //       return throwError(() => refreshErr);
+      //     })
+      //   );
+      // }
+      return throwError(() => err);
+    })
+  );
 };
 
 

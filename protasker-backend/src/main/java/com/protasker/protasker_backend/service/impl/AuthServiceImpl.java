@@ -21,9 +21,14 @@ import com.protasker.protasker_backend.service.NotificationService.EmailService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -36,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -97,47 +103,84 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public AuthResponseDto login(LoginRequestDto loginRequest) {
-        User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(),loginRequest.getUsernameOrEmail())
-                .orElseThrow(() -> new UserNotFoundException("Service login: Invalid username or email"));
+    public GenericResponseDto login(LoginRequestDto loginRequest, HttpServletResponse response) {
+        // Step 1: Authenticate user
+        User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail())
+                .orElseThrow(() -> new UserNotFoundException("Auth Service: Invalid username or email"));
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsernameOrEmail(),
                 loginRequest.getPassword()
         ));
 
-        try{
+        try {
+            // Set authentication context
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Step 2: Generate access token and refresh token
             String accessToken = jwtService.generateToken(authentication.getName());
             String refreshToken = jwtService.createRefreshToken(user).getToken();
 
-            return AuthResponseDto.builder()
-                    .responseMessage(AuthConstants.LOGIN_SUCCESS.getMessage())
-                    .accessToken(accessToken)
-                    .refreshToken(refreshToken)
+            // Step 3: Create HttpOnly cookies
+            ResponseCookie accessTokenCookie = ResponseCookie.from("access_token", accessToken)
+                    .httpOnly(true)  // Ensures the cookie is not accessible via JavaScript(true)
+                    .secure(false)    // Ensures the cookie is only sent over HTTPS(true)
+                    .path("/")       // The cookie will be available for all paths
+                    .sameSite("Lax")  // Prevents the cookie from being sent in cross-origin requests
+                    .maxAge(15 * 60)  // Access token expiration time (15 minutes)
+                    .build();
+
+            ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
+                    .httpOnly(true)
+                    .secure(false)
+                    .path("/")  // Path for the refresh token (can be adjusted as needed)
+                    .sameSite("Lax")
+                    .maxAge(7 * 24 * 60 * 60)  // Refresh token expiration time (7 days)
+                    .build();
+
+            // Step 4: Set cookies in the response header (The cookies will be automatically stored in the user's browser.)
+//            response.setHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+//            response.setHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+            response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+            response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+
+            // Step 5: Return success response with the appropriate message
+            return GenericResponseDto.builder()
+                    .response("Login Success")
+                    .code(HttpStatus.OK)
                     .build();
 
         } catch (AuthenticationException e) {
             throw new AuthException("Authentication failed", e);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new AuthException("Login processing error", e);
         }
     }
 
-    @Override
-    public AuthResponseDto refreshToken(String refreshToken) {
-        RefreshToken token = jwtService.findByToken(refreshToken);
 
+
+    @Override
+    public GenericResponseDto refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        RefreshToken token = jwtService.findByToken(jwtService.extractRefreshTokenFromCookies(request));
+        System.out.println("Token: "+ token);
         if (token.getToken()==null || token.getToken().isEmpty() || jwtService.isTokenExpired(token)) {
             throw new TokensException("Invalid or expired refresh token");
         }
 
         User user = token.getUser();
         String newAccessToken = jwtService.generateToken(user.getUsername());
-        return AuthResponseDto.builder()
-                .responseMessage(AuthConstants.LOGIN_SUCCESS.getMessage())
-                .accessToken(newAccessToken)
-                .refreshToken(refreshToken)
+        // 4. Set new access token in HTTP-only cookie (optional)
+        ResponseCookie accessTokenCookie = ResponseCookie.from("access_token", newAccessToken)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .sameSite("Lax")
+                .maxAge(15 * 60)  // Access token expiration time (15 minutes)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
+        return GenericResponseDto.builder()
+                .response("Refresh Success")
+                .code(HttpStatus.OK)
                 .build();
     }
 
@@ -188,7 +231,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public GenericResponseDto createResetToken(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: "+email));
+                .orElseThrow(() -> new UserNotFoundException("Auth Service: User not found with email: "+email));
 
         String token = UUID.randomUUID().toString();
         try{
@@ -202,7 +245,7 @@ public class AuthServiceImpl implements AuthService {
 
             verificationTokenRepository.save(resetToken);
         }catch (Exception e){
-            throw new TokensException("Token Creation Fail");
+            throw new TokensException("Auth Service: Token Creation Fail");
         }
 
         emailService.sendPasswordRestEmail(user.getEmail(), token);
@@ -215,10 +258,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public GenericResponseDto resetPassword(String token, String newPassword) {
         VerificationToken resetToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new TokensException("Invalid token"));
+                .orElseThrow(() -> new TokensException("Auth Service: Invalid token"));
 
         if (resetToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new TokensException("Token expired");
+            throw new TokensException("Auth Service: Token expired");
         }
 
         try {
@@ -226,7 +269,7 @@ public class AuthServiceImpl implements AuthService {
             user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
             userRepository.save(user);
         }catch (Exception e){
-            throw new UserManagementException("Password Rest Fail");
+            throw new UserManagementException("Auth Service: Password Rest Fail");
         }
 //        verificationTokenRepository.delete(resetToken);
         return GenericResponseDto.builder()
@@ -249,6 +292,14 @@ public class AuthServiceImpl implements AuthService {
                 .response("Auth Service: "+AuthConstants.REGISTRATION_SUCCESS.getMessage() +" : User ID = "+user.getUserId())
                 .code(HttpStatus.CREATED)
                 .build();
+    }
+
+    @Override
+    public boolean checkAuthStatus(HttpServletRequest request) {
+        System.out.println("works: checkAuthStatus");
+        boolean isValid = jwtService.validateToken(jwtService.extractAccessTokenFromCookies(request));
+        System.out.println("isValid: "+isValid);
+        return isValid;
     }
 
     private String generateUserId() {

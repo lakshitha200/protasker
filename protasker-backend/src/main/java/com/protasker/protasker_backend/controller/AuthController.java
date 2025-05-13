@@ -5,7 +5,9 @@ import com.protasker.protasker_backend.dto.GenericResponseDto;
 import com.protasker.protasker_backend.dto.LoginRequestDto;
 import com.protasker.protasker_backend.dto.RegisterRequestDto;
 import com.protasker.protasker_backend.service.AuthService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,12 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class AuthController {
 
     private final AuthService authService;
@@ -29,13 +32,31 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDto loginRequest) {
-        return new ResponseEntity<>(authService.login(loginRequest), HttpStatus.OK);
+    public ResponseEntity<GenericResponseDto> login(@RequestBody @Valid LoginRequestDto loginRequest, HttpServletResponse response) {
+        System.out.println("login");
+        return new ResponseEntity<>(authService.login(loginRequest,response), HttpStatus.OK);
+    }
+
+//    @PostMapping("/refresh")
+//    public ResponseEntity<AuthResponseDto> refresh(@RequestParam("refreshToken") String refreshToken) {
+//        System.out.println("refresh");
+//        return ResponseEntity.ok(authService.refreshToken(refreshToken));
+//    }
+
+    @CrossOrigin(
+            origins = "http://localhost:4200",
+            allowCredentials = "true"
+    )
+    @GetMapping("/check")
+    public ResponseEntity<Boolean> checkAuthStatus(HttpServletRequest request) {
+        System.out.println("check Cookies: " ); // Debug
+        return ResponseEntity.ok(authService.checkAuthStatus(request)); // Just validates the cookie
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<AuthResponseDto> refresh(@RequestParam("refreshToken") String refreshToken) {
-        return ResponseEntity.ok(authService.refreshToken(refreshToken));
+    public ResponseEntity<GenericResponseDto> refresh(HttpServletRequest request,HttpServletResponse response) {
+        System.out.println("refresh");
+        return ResponseEntity.ok(authService.refreshToken(request,response));
     }
 
     @PostMapping("/logout")
