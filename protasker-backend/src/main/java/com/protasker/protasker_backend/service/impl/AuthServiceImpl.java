@@ -269,7 +269,7 @@ public class AuthServiceImpl implements AuthService {
             user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
             userRepository.save(user);
         }catch (Exception e){
-            throw new UserManagementException("Auth Service: Password Rest Fail");
+            throw new AuthException("Auth Service: Password Rest Fail");
         }
 //        verificationTokenRepository.delete(resetToken);
         return GenericResponseDto.builder()
