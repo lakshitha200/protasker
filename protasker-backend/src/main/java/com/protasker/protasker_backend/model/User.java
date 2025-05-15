@@ -1,12 +1,11 @@
 package com.protasker.protasker_backend.model;
 
 import com.protasker.protasker_backend.model.enums.Provider;
-import com.protasker.protasker_backend.model.enums.UserStatus;
 import com.protasker.protasker_backend.model.enums.UserType;
+import com.protasker.protasker_backend.utils.JsonConverter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -49,19 +48,15 @@ public class User {
     private String department;
     private String position;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserStatus status = UserStatus.INACTIVE;
-
     @Column(name = "profile_picture")
     private String profilePicture;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-//    @Type(type = "json")
-//    @Column(columnDefinition = "json")
-//    private List<String> skills;
+    @Convert(converter = JsonConverter.class)
+    @Column(columnDefinition = "json")
+    private List<String> skills;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;

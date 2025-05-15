@@ -1,8 +1,10 @@
 package com.protasker.protasker_backend.dto.UserDto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Getter
@@ -11,14 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-public class UpdateUserDTO {
-    private String email;
-    private String password;
+public class UpdateUserDto {
     private String firstName;
     private String lastName;
     private String department;
     private String position;
-    private String profilePicture;
     private String phoneNumber;
     private List<String> skills;
 }

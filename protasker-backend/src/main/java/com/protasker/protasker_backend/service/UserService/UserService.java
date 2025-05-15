@@ -1,18 +1,25 @@
 package com.protasker.protasker_backend.service.UserService;
 
 import com.protasker.protasker_backend.dto.GenericResponseDto;
-import com.protasker.protasker_backend.dto.UserDto.UpdateUserDTO;
-import com.protasker.protasker_backend.dto.UserDto.UserDTO;
-import com.protasker.protasker_backend.model.User;
-import org.springframework.http.ResponseEntity;
+import com.protasker.protasker_backend.dto.UserDto.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface UserService {
-    UserDTO getUserByUserId(String userId);
-    List<UserDTO> getAllUsers();
-    GenericResponseDto updateUser(String id, UpdateUserDTO updateUserDTO);
-    GenericResponseDto deactivateUser(String id);
-    GenericResponseDto deleteUser(String id);
 
+    UserDto findByUsername(String username);
+    GenericResponseDto updateUser(String id, UpdateUserDto updateUserDto);
+
+    UserDto getUserByUserId(String userId);
+
+    List<UserDto> getAllUsers();
+
+    GenericResponseDto updateEmail(String userID, UpdateEmailDto emailDto);
+
+    GenericResponseDto updatePassword(String userID, UpdatePasswordDto passwordDto);
+
+    GenericResponseDto updateUsername(String userID, UpdateUsernameDto usernameDto);
+
+    GenericResponseDto uploadProfilePicture(String userID, MultipartFile file);
 }
