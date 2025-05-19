@@ -1,10 +1,9 @@
-package com.protasker.protasker_backend.service;
+package com.protasker.protasker_backend.service.AuthService;
 
-import com.protasker.protasker_backend.dto.AuthResponseDto;
+import com.protasker.protasker_backend.dto.AuthDto.PasswordResetDto;
 import com.protasker.protasker_backend.dto.GenericResponseDto;
-import com.protasker.protasker_backend.dto.LoginRequestDto;
-import com.protasker.protasker_backend.dto.RegisterRequestDto;
-import com.protasker.protasker_backend.model.User;
+import com.protasker.protasker_backend.dto.AuthDto.LoginRequestDto;
+import com.protasker.protasker_backend.dto.AuthDto.RegisterRequestDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -20,7 +19,7 @@ public interface AuthService {
 
     GenericResponseDto createResetToken(String email);
 
-    GenericResponseDto resetPassword(String token, String newPassword);
+    GenericResponseDto resetPassword(PasswordResetDto passwordResetDto);
 
     GenericResponseDto resendVerifyEmail(String email);
 

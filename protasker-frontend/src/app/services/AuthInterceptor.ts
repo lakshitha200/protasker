@@ -17,20 +17,23 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((err) => {
       console.log("Works Inspector");
-      // if (err.status === 401) {
-        
-      //   console.log("yes")
-      //   // Attempt token refresh
-      //   return authService.getRefreshToken().pipe(
-      //     switchMap(() => next(req)), // Retry original request (cookies auto-send)
-      //     catchError((refreshErr) => {
-      //       // Redirect to login if refresh fails
-      //       authService.logout();
-      //       router.navigate(['/sign-in']);
-      //       return throwError(() => refreshErr);
-      //     })
-      //   );
-      // }
+      if (err.status === 401) {
+        if(err.error.title == "JWT Validation Failed"){
+            console.log("yes")
+            //   // Attempt token refresh
+          return authService.getRefreshToken().pipe(
+            switchMap(() => next(req)), // Retry original request (cookies auto-send)
+            catchError((refreshErr) => {
+              // Redirect to login if refresh fails
+              authService.logout();
+              router.navigate(['/sign-in']);
+              return throwError(() => refreshErr);
+            })
+          );
+        }
+      
+      
+      }
       return throwError(() => err);
     })
   );

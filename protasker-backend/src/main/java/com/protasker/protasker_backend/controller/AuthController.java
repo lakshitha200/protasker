@@ -1,27 +1,24 @@
 package com.protasker.protasker_backend.controller;
 
-import com.protasker.protasker_backend.dto.AuthResponseDto;
+import com.protasker.protasker_backend.dto.AuthDto.PasswordResetDto;
 import com.protasker.protasker_backend.dto.GenericResponseDto;
-import com.protasker.protasker_backend.dto.LoginRequestDto;
-import com.protasker.protasker_backend.dto.RegisterRequestDto;
-import com.protasker.protasker_backend.service.AuthService;
-import jakarta.servlet.http.Cookie;
+import com.protasker.protasker_backend.dto.AuthDto.LoginRequestDto;
+import com.protasker.protasker_backend.dto.AuthDto.RegisterRequestDto;
+import com.protasker.protasker_backend.service.AuthService.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-//@CrossOrigin("*")
 public class AuthController {
 
     private final AuthService authService;
@@ -33,29 +30,16 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<GenericResponseDto> login(@RequestBody @Valid LoginRequestDto loginRequest, HttpServletResponse response) {
-        System.out.println("login");
         return new ResponseEntity<>(authService.login(loginRequest,response), HttpStatus.OK);
     }
 
-//    @PostMapping("/refresh")
-//    public ResponseEntity<AuthResponseDto> refresh(@RequestParam("refreshToken") String refreshToken) {
-//        System.out.println("refresh");
-//        return ResponseEntity.ok(authService.refreshToken(refreshToken));
-//    }
-
-    @CrossOrigin(
-            origins = "http://localhost:4200",
-            allowCredentials = "true"
-    )
     @GetMapping("/check")
     public ResponseEntity<Boolean> checkAuthStatus(HttpServletRequest request) {
-        System.out.println("check Cookies: " ); // Debug
         return ResponseEntity.ok(authService.checkAuthStatus(request)); // Just validates the cookie
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<GenericResponseDto> refresh(HttpServletRequest request,HttpServletResponse response) {
-        System.out.println("refresh");
         return ResponseEntity.ok(authService.refreshToken(request,response));
     }
 
@@ -65,10 +49,9 @@ public class AuthController {
         return ResponseEntity.ok().build();  // HTTP 200 OK response
     }
 
-    @GetMapping("/verify-email")
-    public ResponseEntity<GenericResponseDto> verifyEmail(@RequestParam String token) {
-        System.out.println(token);
-        return ResponseEntity.ok(authService.verifyEmail(token));
+    @PostMapping("/verify-email")
+    public ResponseEntity<GenericResponseDto> verifyEmail(@RequestBody Map<String,String> request) {
+        return ResponseEntity.ok(authService.verifyEmail(request.get("token")));
     }
 
     @PostMapping("/resend-verification")
@@ -81,17 +64,8 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<GenericResponseDto> resetPassword(@RequestBody Map<String,String> request) {
-        return ResponseEntity.ok(authService.resetPassword(request.get("token"), request.get("newPassword")));
-    }
-
-    @GetMapping("/test")
-    public String test(HttpServletRequest request){
-        System.out.println("Request received from: "+ request.getRemoteAddr());
-        System.out.println("User-Agent: "+ request.getHeader("User-Agent"));
-        System.out.println("Referer: "+ request.getHeader("Referer"));
-        System.out.println("Mehod : "+ request.getMethod());
-        return "Test Login Success";
+    public ResponseEntity<GenericResponseDto> resetPassword(@RequestBody @Valid PasswordResetDto passwordResetDto) {
+        return ResponseEntity.ok(authService.resetPassword(passwordResetDto));
     }
 }
 

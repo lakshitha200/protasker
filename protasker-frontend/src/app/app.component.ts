@@ -48,7 +48,7 @@ this.notification.error('Error', 'Failed to save changes');
       ){
         this.showHeader = false;
         this.showSideBar = true;
-      }else if(this.router.url.includes("verify-email")){
+      }else if(this.router.url.includes("verify-email") || this.router.url.includes("reset-password") ){
         this.showHeader = false;
         this.showSideBar = false;
       }else{

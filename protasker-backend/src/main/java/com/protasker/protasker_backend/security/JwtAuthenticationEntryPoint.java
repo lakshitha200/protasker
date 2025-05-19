@@ -18,31 +18,22 @@ import java.time.LocalDateTime;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 
-//    @Override
-//    public void commence(
-//            HttpServletRequest request,
-//            HttpServletResponse response,
-//            AuthenticationException authException) throws ServletException, IOException {
-//
-//
-//        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
-//        problem.setTitle("User Not Found");
-//        problem.setDetail("JwtAuthenticationEntryPoint : Invalid password");
-//        problem.setProperty("timestamp", LocalDateTime.now().toString());
-//        String jsonResponse = new ObjectMapper().writeValueAsString(problem);
-//
-//        response.setContentType("application/json");
-//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//        response.getWriter().write(jsonResponse);
-//
-//    }
-@Override
-public void commence(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        AuthenticationException authException) throws IOException, ServletException {
+    @Override
+    public void commence(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            AuthenticationException authException) throws ServletException, IOException {
 
-    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
 
-}
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problem.setTitle("User Not Found");
+        problem.setDetail("Invalid password");
+        problem.setProperty("timestamp", LocalDateTime.now().toString());
+        String jsonResponse = new ObjectMapper().writeValueAsString(problem);
+
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(jsonResponse);
+
+    }
 }

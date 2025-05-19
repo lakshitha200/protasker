@@ -16,7 +16,9 @@ export class DashboardComponent implements OnInit{
         console.log(response);
       },
       error: err => {
-        console.log('Rediret failed!'+ err);
+        let error = JSON.stringify(err.error);
+        let errorResponse = JSON.parse(error);
+        console.log(errorResponse);
       }
     })
   }
