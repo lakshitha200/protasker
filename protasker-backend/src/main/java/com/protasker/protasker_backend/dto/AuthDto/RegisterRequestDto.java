@@ -1,11 +1,8 @@
-package com.protasker.protasker_backend.dto;
+package com.protasker.protasker_backend.dto.AuthDto;
 
-import com.protasker.protasker_backend.model.enums.UserType;
 import jakarta.validation.constraints.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
-
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -15,6 +12,7 @@ public class RegisterRequestDto {
 
     @NotBlank(message = "Username is required")
     @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    @Pattern(regexp = "^[a-z0-9_]+$", message = "Username must contain only lowercase letters, underscore and digits, no spaces")
     private String username;
 
     @NotBlank(message = "Email is required")

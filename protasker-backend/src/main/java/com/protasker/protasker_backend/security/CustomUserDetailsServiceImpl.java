@@ -23,9 +23,9 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     //This convert my user object to userdetails object and return
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("loadUserByUsername");
-        User user = userRepository.findByUsernameOrEmail(username,username) .orElseThrow(() ->
+    public UserDetails loadUserByUsername(String username){
+        String newUsername = username != null ? username.replace(" ", "_").toLowerCase() : null;
+        User user = userRepository.findByUsernameOrEmail(newUsername,newUsername) .orElseThrow(() ->
                 new UsernameNotFoundException("User not exists by Username or Email"));
         return new CustomUserDetailsImpl(user);
     }

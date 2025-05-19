@@ -1,6 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/AuthService';
 import { CommonModule } from '@angular/common';
 import { validateActualData, validateEmptyFields, validateSyntax } from '../../util/validation';
@@ -14,7 +14,7 @@ import { ModalService } from '../../services/Model.service';
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit{
 
   @ViewChild(NgForm) signInForm!: NgForm;
   
@@ -25,7 +25,16 @@ export class SignInComponent {
 
   isOpen = false;
 
-  constructor(private authService: AuthService, private router: Router,private loaderService: LoaderService, private modal: ModalService,) { }
+  constructor(private authService: AuthService, private router: Router,
+    private loaderService: LoaderService, private modal: ModalService,
+    private activatedRoute: ActivatedRoute) { }
+  
+  ngOnInit(): void {
+    const reason = this.activatedRoute.snapshot.queryParamMap.get("reason");
+    if(reason){
+      this.modal.show("Login Error","This email is already registered with a local account. Please log in using your email and password or use an another account.")
+    }
+  }
 
   submitSignInForm() {
     this.submitted = true;
@@ -54,6 +63,7 @@ export class SignInComponent {
         this.hideLoader();
         let error = JSON.stringify(err.error);
         let errorResponse = JSON.parse(error);
+        console.log(errorResponse);
         const validationErrors = validateActualData(errorResponse, "sign-in");
         console.log(validationErrors);
         Object.assign(this, validationErrors);
@@ -64,19 +74,7 @@ export class SignInComponent {
     })
   } 
   
-  showModal(title:string,message:string) {
-    this.modal.show(title, message);
-  }
-
-  // show and hide Sprinner (loader)
-  showLoader() {
-    this.loaderService.show('fullscreen', 'spinner');
-  }
-
-  hideLoader(){
-    this.loaderService.hide(); 
-  }
-  //-----------------------------------
+ 
 
   //froget password
   openFrogetPasswordModel(){
@@ -98,23 +96,41 @@ export class SignInComponent {
 
     this.loaderService.show("fullscreen","spinner")
     const email:string = emailInput.value;
-    console.log(email)
     this.authService.frogetPassword(email).subscribe({
       next: ()=>{
         this.loaderService.hide();
         this.close();
-        alert("works");
+        this.showModal("Password Reset Link Sent",`We sent a password rest link to ${email}. Check your inbox!`)
       },
-      error: ()=>{
+      error: (err)=>{
         this.loaderService.hide();
         this.close()
-        alert("fail");
+        let error = JSON.stringify(err.error);
+        let errorResponse = JSON.parse(error);
+        if(errorResponse.detail.length>0){
+  	      this.showModal("Password Reset Link Sent Fail",errorResponse.detail)
+        }else{
+          this.showModal("Password Reset Link Sent Fail",`Password Reset Link Sent Fail! Try again.`)
+        }
       }
     })
 
   }
   close(){
     this.isOpen = false;
+  }
+  //-----------------------------------
+   showModal(title:string,message:string) {
+    this.modal.show(title, message);
+  }
+
+  // show and hide Sprinner (loader)
+  showLoader() {
+    this.loaderService.show('fullscreen', 'spinner');
+  }
+
+  hideLoader(){
+    this.loaderService.hide(); 
   }
   //-----------------------------------
 

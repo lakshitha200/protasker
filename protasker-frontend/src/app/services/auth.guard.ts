@@ -12,11 +12,11 @@ export const authGuard: CanActivateFn = (): Observable<boolean> => {
   return authService.checkAuthStatus().pipe(
     map(res => {
       console.log(res);
-      return true; // Allow access
+      return true;
     }),
     catchError(err => {
-      console.log(err);
-      // router.navigate(['/sign-in']);
+      alert("Not Allowed")
+      router.navigate(['/sign-in']);
       return of(false); // Block access
     })
   );

@@ -1,4 +1,4 @@
-package com.protasker.protasker_backend.dto;
+package com.protasker.protasker_backend.dto.AuthDto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

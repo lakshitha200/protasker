@@ -64,9 +64,10 @@ export function validateSyntax(value: any, action: string): any {
 export function validateActualData(value: any, action: string): any {
   const errors: any = {};
   if(action=="sign-in"){
-    if(getErrorMessage("usernameOrEmail","invalid")=="* "+value.detail.split(": ")[1]){
+    if(getErrorMessage("usernameOrEmail","invalid")=="* "+value.detail){
       errors.usernameOrEmailError = getErrorMessage("usernameOrEmail","invalid")
-    }else{
+    }
+    else{
       errors.passwordError = getErrorMessage("password","invalid");
     }
   }
@@ -76,19 +77,21 @@ export function validateActualData(value: any, action: string): any {
       errors.passwordError = value.password;
       errors.confirmPasswordError = value.password;
     }else{
-      if(getErrorMessage("username","invalid")=="* "+value.detail.split(": ")[1]){
+      if(getErrorMessage("username","invalid")=="* "+value.detail){
         errors.usernameError = getErrorMessage("username","invalid");
       }
-      if(getErrorMessage("email","invalid")=="* "+value.detail.split(": ")[1]){
+      if(getErrorMessage("username","syntax")=="* "+value.username){
+        errors.usernameError = getErrorMessage("username","syntax");
+      }
+      if(getErrorMessage("email","invalid")=="* "+value.detail){
         errors.emailError = getErrorMessage("email","invalid");
       }
     }  
   }
 
   if(action == "new-password"){
-    if(value.password){
-      errors.passwordError = value.password;
-      errors.confirmPasswordError = value.password;
+    if(value.newPassword){
+      errors.passwordError = value.newPassword;
     }
   } 
   

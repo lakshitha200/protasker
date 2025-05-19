@@ -1,7 +1,13 @@
 package com.protasker.protasker_backend.exception.GlobalExceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -9,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.net.URI;
+import java.security.SignatureException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,4 +55,47 @@ public class GenericExceptionHandler {
         return problem;
     }
 
+    @ExceptionHandler(DataAccessException.class)
+    public ProblemDetail handleDatabaseErrors(DataAccessException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(500);
+        problem.setTitle("Database Error");
+        problem.setDetail(ex.getMessage());
+        return problem;
+    }
+
+    @ExceptionHandler({
+            ExpiredJwtException.class,
+            UnsupportedJwtException.class,
+            MalformedJwtException.class,
+            SecurityException.class,  // Includes SignatureException
+    })
+    public ProblemDetail handleJwtExceptions(Exception ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problemDetail.setTitle("JWT Validation Failed");
+
+        // Customize based on exception type
+        if (ex instanceof ExpiredJwtException) {
+            problemDetail.setDetail("Token has expired");
+        } else if (ex instanceof UnsupportedJwtException) {
+            problemDetail.setDetail("Unsupported JWT format");
+        } else if (ex instanceof MalformedJwtException) {
+            problemDetail.setDetail("Malformed JWT");
+        } else if (ex instanceof SignatureException) {
+            problemDetail.setDetail("Invalid JWT signature");
+        }
+
+        // Add custom properties if needed
+        problemDetail.setDetail(ex.getMessage());
+        return problemDetail;
+
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ProblemDetail handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problem.setTitle("Username Not Found");
+        problem.setDetail(ex.getMessage());
+        return problem;
+
+    }
 }

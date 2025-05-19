@@ -3,7 +3,8 @@ export function getErrorMessage(field: string, errorType: string): string {
     username: {
       pattern: '* Min 3 chars: letters, numbers, or _',
       empty: '* Username is required',
-      invalid: '* User already exists with the username'
+      invalid: '* User already exists with the username',
+      syntax: '* Username must contain only lowercase letters, underscore and digits, no spaces'
     },
     email: {
       pattern: '* Please enter a valid email',

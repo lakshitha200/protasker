@@ -16,11 +16,20 @@ export const routes: Routes = [
     { path: 'sign-up', component: SignUpComponent },
     { path: 'notification', component: NotificationComponent },
     { path: 'project', component: ProjectComponent },
-    { path: 'user-profile', component: UserProfileComponent },
-    { path: 'reset-password', component: VerificationComponent },
+        { path: 'verify-email', component: VerificationComponent },
+    // {
+    //     path: 'verify-email',
+    //     loadComponent: () => import('./util/verification/verification.component').then(m=>m.VerificationComponent),
+    //     // canActivate: [authGuard]
+    // },
     {
-        path: 'verify-email',
-        loadComponent: () => import('./util/verification/verification.component').then(m=>m.VerificationComponent),
+        path: 'user-profile',
+        loadComponent: () => import('./components/user-profile/user-profile.component').then(m=>m.UserProfileComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () => import('./util/password-reset/password-reset.component').then(m=>m.PasswordResetComponent),
         // canActivate: [authGuard]
     },
     {

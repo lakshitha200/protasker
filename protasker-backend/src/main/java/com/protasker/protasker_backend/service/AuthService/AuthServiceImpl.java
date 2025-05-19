@@ -1,11 +1,11 @@
-package com.protasker.protasker_backend.service.impl;
+package com.protasker.protasker_backend.service.AuthService;
 
 import com.protasker.protasker_backend.constants.AuthConstants;
 import com.protasker.protasker_backend.constants.UserConstants;
-import com.protasker.protasker_backend.dto.AuthResponseDto;
+import com.protasker.protasker_backend.dto.AuthDto.PasswordResetDto;
 import com.protasker.protasker_backend.dto.GenericResponseDto;
-import com.protasker.protasker_backend.dto.LoginRequestDto;
-import com.protasker.protasker_backend.dto.RegisterRequestDto;
+import com.protasker.protasker_backend.dto.AuthDto.LoginRequestDto;
+import com.protasker.protasker_backend.dto.AuthDto.RegisterRequestDto;
 import com.protasker.protasker_backend.exception.CusExceptions.*;
 import com.protasker.protasker_backend.model.RefreshToken;
 import com.protasker.protasker_backend.model.User;
@@ -16,19 +16,15 @@ import com.protasker.protasker_backend.model.enums.UserType;
 import com.protasker.protasker_backend.repository.UserRepository;
 import com.protasker.protasker_backend.repository.VerificationTokenRepository;
 import com.protasker.protasker_backend.security.JwtService;
-import com.protasker.protasker_backend.service.AuthService;
 import com.protasker.protasker_backend.service.NotificationService.EmailService;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jdk.swing.interop.SwingInterOpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -41,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
@@ -60,43 +55,37 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public GenericResponseDto register(RegisterRequestDto registerRequest) {
         if (registerRequest == null) {
-            throw new IllegalArgumentException("Auth Service: "+AuthConstants.REGISTRATION_REQ_NULL.getMessage());
+            throw new IllegalArgumentException("Registration request cannot be null");
         }
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            throw new UserAlreadyExistsException("Auth Service: "+ UserConstants.USER_ALREADY_EXISTS.getMessage()+ " with the email");
+            throw new UserAlreadyExistsException("User already exists with the email");
         }
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
-            throw new UserAlreadyExistsException("Auth Service: "+ UserConstants.USER_ALREADY_EXISTS.getMessage()+ " with the username");
+            throw new UserAlreadyExistsException("User already exists with the username");
         }
-        User newUser = null;
-        try {
             // Save user in db
-            newUser = userRepository.save(
-                    User.builder()
-                            .userId(generateUserId())
-                            .username(registerRequest.getUsername())
-                            .email(registerRequest.getEmail())
-                            .password(passwordEncoder.encode(registerRequest.getPassword()))
-                            .isActive(false)
-                            .provider(Provider.LOCAL)
-                            .userType(UserType.STANDARD)
-                            .lastLogin(LocalDateTime.now())
-                            .createdAt(LocalDateTime.now())
-                            .updatedAt(LocalDateTime.now())
-                            .build()
-                    );
-        } catch (Exception e) {
-            throw new RegistrationException("Auth Service: "+AuthConstants.REGISTRATION_FAIL.getMessage(), e);
-        }
+        User newUser = userRepository.save(
+            User.builder()
+                    .userId(generateUserId())
+                    .username(registerRequest.getUsername())
+                    .email(registerRequest.getEmail())
+                    .password(passwordEncoder.encode(registerRequest.getPassword()))
+                    .isActive(false)
+                    .provider(Provider.LOCAL)
+                    .userType(UserType.STANDARD)
+                    .lastLogin(LocalDateTime.now())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build()
+            );
 
         // Send verification email
         String vToken = generateVerficationToken(newUser.getEmail());
         verificationTokenRepository.save(VerificationToken.builder().token(vToken).user(newUser).tokenType(TokenType.EMAIL_VERIFICATION).expiresAt(LocalDateTime.now().plusHours(24)).build());
-        String isSent = emailService.sendVerificationEmail(newUser.getEmail(), vToken);
-        System.out.println(isSent);
+        emailService.sendVerificationEmail(newUser.getEmail(), vToken);
 
         return GenericResponseDto.builder()
-                .response("Auth Service: "+AuthConstants.REGISTRATION_SUCCESS.getMessage() +" : User ID = "+newUser.getUserId())
+                .response("Registration success : User ID = "+newUser.getUserId())
                 .code(HttpStatus.CREATED)
                 .build();
     }
@@ -106,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
     public GenericResponseDto login(LoginRequestDto loginRequest, HttpServletResponse response) {
         // Step 1: Authenticate user
         User user = userRepository.findByUsernameOrEmail(loginRequest.getUsernameOrEmail(), loginRequest.getUsernameOrEmail())
-                .orElseThrow(() -> new UserNotFoundException("Auth Service: Invalid username or email"));
+                .orElseThrow(() -> new UserNotFoundException("Invalid username or email"));
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsernameOrEmail(),
@@ -127,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
                     .secure(false)    // Ensures the cookie is only sent over HTTPS(true)
                     .path("/")       // The cookie will be available for all paths
                     .sameSite("Lax")  // Prevents the cookie from being sent in cross-origin requests
-                    .maxAge(15 * 60)  // Access token expiration time (15 minutes)
+                    .maxAge(7 * 24 * 60 * 60)  // Access token expiration time (15 minutes)
                     .build();
 
             ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
@@ -139,8 +128,6 @@ public class AuthServiceImpl implements AuthService {
                     .build();
 
             // Step 4: Set cookies in the response header (The cookies will be automatically stored in the user's browser.)
-//            response.setHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
-//            response.setHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
             response.addHeader(HttpHeaders.SET_COOKIE, accessTokenCookie.toString());
             response.addHeader(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
 
@@ -164,7 +151,7 @@ public class AuthServiceImpl implements AuthService {
         RefreshToken token = jwtService.findByToken(jwtService.extractRefreshTokenFromCookies(request));
         System.out.println("Token: "+ token);
         if (token.getToken()==null || token.getToken().isEmpty() || jwtService.isTokenExpired(token)) {
-            throw new TokensException("Invalid or expired refresh token");
+            throw new TokensException("Invalid or expired refresh token", HttpStatus.BAD_REQUEST);
         }
 
         User user = token.getUser();
@@ -191,39 +178,35 @@ public class AuthServiceImpl implements AuthService {
         jwtService.deleteByToken(token.getToken()); // Or token.setRevoked(true); refreshTokenRepository.save(token);
     }
 
-//    @Transactional
+    @Transactional
     @Override
     public GenericResponseDto verifyEmail(String token) {
         System.out.println(LocalDateTime.now());
         VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new TokensException("Auth Service: "+AuthConstants.INVALID_TOKEN.getMessage()));
+                .orElseThrow(() -> new TokensException("Invalid or expired token", HttpStatus.BAD_REQUEST));
 
-        if (verificationToken.isUsed() || verificationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new TokensException("Auth Service: "+AuthConstants.EXPIRED_TOKEN.getMessage());
+        if (verificationToken.isUsed()) {
+            throw new TokensException("Token was already used", HttpStatus.BAD_REQUEST);
         }
 
-        User user = null;
-        try{
-            // Mark user as verified
-            user = verificationToken.getUser();
-            user.setIsActive(true);
-            userRepository.save(user);
-
-            // Invalidate token
-            verificationToken.setUsed(true);
-            verificationTokenRepository.save(verificationToken);
-            System.out.println("Verification worked!");
-        }catch (Exception e){
-            throw new AuthException("Auth Service: Email Verification Error");
+        if (verificationToken.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new TokensException("Token has expired", HttpStatus.GONE);
         }
+
+        User user = verificationToken.getUser();
+        user.setIsActive(true);
+        userRepository.save(user);
+
+        // Invalidate token
+        verificationToken.setUsed(true);
+        verificationTokenRepository.save(verificationToken);
+        System.out.println("Verification worked!");
 
         // Send welcome email
-        String isSent = emailService.sendWelcomeEmail(user.getEmail());
-        System.out.println(isSent);
-
+//        emailService.sendWelcomeEmail(user.getEmail());
 
         return GenericResponseDto.builder()
-                .response(AuthConstants.EMAIL_VERIFICATION_SUCCESS.getMessage())
+                .response("Email verified successfully")
                 .code(HttpStatus.OK).build();
     }
 
@@ -231,52 +214,50 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public GenericResponseDto createResetToken(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("Auth Service: User not found with email: "+email));
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: "+email));
 
         String token = UUID.randomUUID().toString();
-        try{
-            VerificationToken resetToken = VerificationToken.builder()
-                    .token(token)
-                    .user(user)
-                    .tokenType(TokenType.PASSWORD_RESET)
-                    .expiresAt(LocalDateTime.now().plusMinutes(15))
-                    .used(false)
-                    .build();
 
-            verificationTokenRepository.save(resetToken);
-        }catch (Exception e){
-            throw new TokensException("Auth Service: Token Creation Fail");
-        }
+        VerificationToken resetToken = VerificationToken.builder()
+                .token(token)
+                .user(user)
+                .tokenType(TokenType.PASSWORD_RESET)
+                .expiresAt(LocalDateTime.now().plusMinutes(15))
+                .used(false)
+                .build();
+
+        verificationTokenRepository.save(resetToken);
 
         emailService.sendPasswordRestEmail(user.getEmail(), token);
         return GenericResponseDto.builder()
-                .response(AuthConstants.PASSWORD_RESET_SENT.getMessage())
+                .response("Password rest link sent")
                 .code(HttpStatus.OK).build();
     }
 
     @Transactional
     @Override
-    public GenericResponseDto resetPassword(String token, String newPassword) {
-        VerificationToken resetToken = verificationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new TokensException("Auth Service: Invalid token"));
+    public GenericResponseDto resetPassword(PasswordResetDto passwordResetDto) {
+        VerificationToken resetToken = verificationTokenRepository.findByToken(passwordResetDto.getToken())
+                .orElseThrow(() -> new TokensException("Invalid token", HttpStatus.BAD_REQUEST));
 
         if (resetToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new TokensException("Auth Service: Token expired");
+            throw new TokensException("Token expired", HttpStatus.BAD_REQUEST);
         }
 
-        try {
-            User user = resetToken.getUser();
-            user.setPassword(new BCryptPasswordEncoder().encode(newPassword));
-            userRepository.save(user);
-        }catch (Exception e){
-            throw new AuthException("Auth Service: Password Rest Fail");
-        }
-//        verificationTokenRepository.delete(resetToken);
+        User user = resetToken.getUser();
+        user.setPassword(new BCryptPasswordEncoder().encode(passwordResetDto.getNewPassword()));
+        userRepository.save(user);
+
+        resetToken.setUsed(true);
+        verificationTokenRepository.save(resetToken);
+
+        //password change success email
         return GenericResponseDto.builder()
-                .response(AuthConstants.PASSWORD_RESET_SUCCESS.getMessage())
+                .response("Password reset successfully")
                 .code(HttpStatus.OK).build();
     }
 
+    @Transactional
     @Override
     public GenericResponseDto resendVerifyEmail(String email) {
         User user = userRepository.findByEmail(email)
@@ -285,18 +266,16 @@ public class AuthServiceImpl implements AuthService {
         // Resend verification email
         String vToken = generateVerficationToken(email);
         verificationTokenRepository.save(VerificationToken.builder().token(vToken).user(user).tokenType(TokenType.EMAIL_VERIFICATION_RESEND).expiresAt(LocalDateTime.now().plusHours(24)).build());
-        String isSent = emailService.sendVerificationEmail(user.getEmail(), vToken);
-        System.out.println(isSent);
+        emailService.sendVerificationEmail(user.getEmail(), vToken);
 
         return GenericResponseDto.builder()
-                .response("Auth Service: "+AuthConstants.REGISTRATION_SUCCESS.getMessage() +" : User ID = "+user.getUserId())
+                .response("Verification email sent")
                 .code(HttpStatus.CREATED)
                 .build();
     }
 
     @Override
     public boolean checkAuthStatus(HttpServletRequest request) {
-        System.out.println("works: checkAuthStatus");
         boolean isValid = jwtService.validateToken(jwtService.extractAccessTokenFromCookies(request));
         System.out.println("isValid: "+isValid);
         return isValid;

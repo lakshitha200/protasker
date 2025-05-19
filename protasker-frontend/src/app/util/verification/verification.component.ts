@@ -1,141 +1,86 @@
-import {  ChangeDetectorRef, Component, Inject, inject, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/AuthService';
+import { Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject, switchMap, takeUntil, timer } from 'rxjs';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/AuthService';
 import { jwtDecode } from 'jwt-decode';
 import { ModalService } from '../../services/Model.service';
 import { LoaderService } from '../../services/Loader.service';
-import { FormsModule, NgForm } from '@angular/forms';
-import { validateActualData, validateEmptyFields, validateSyntax } from '../validation';
-
 
 @Component({
   selector: 'app-verification',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: './verification.component.html',
   styleUrls: ['./verification.component.css']
 })
-export class VerificationComponent implements OnInit,OnDestroy  {
+export class VerificationComponent implements OnInit {
+  state: 'success' | 'error' | undefined;
+  title = '';
+  message = '';
+  email: string = '';
 
-  @ViewChild(NgForm) signupForm!: NgForm;
-
-  private destroy$ = new Subject<void>();
-  constructor( private cdRef: ChangeDetectorRef, private ngZone: NgZone,private route: ActivatedRoute, private authService: AuthService, private router: Router
-    ,private modalService :ModalService, private loaderService :LoaderService
-  ) {}
-
-  isComplete: boolean = false;
-  isError: boolean = false;
-  email: string ="";
-  submitted:boolean = false;
-  passwordError: string = "";
-  confirmPasswordError: string = "";
-  password:string ="";
-  confirmPasswrod:string = "";
+  constructor(private authService:AuthService ,private activatedRoute: ActivatedRoute, 
+    private modal: ModalService, private loaderService: LoaderService, private router:Router) {}
 
   ngOnInit(): void {
-    this.isComplete = true;
-    this.isError = false;
-    console.log(this.route.snapshot)
-    const token = this.route.snapshot.queryParamMap.get('token');
 
-    // if (token) {
-    //   const decoded: any = jwtDecode(token);
-    //   if(decoded.type != null && decoded.type != "" ){
-    //     if(decoded.type == "email_verification"){
-    //       this.email = decoded.sub;
-    //     }
-    //   }
-    //    // or decoded.email if you used a custom claim
-      
-    //   this.authService.verifyEmail(token)
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe({
-    //     next: () => {
-    //       this.isComplete = true;
-    //       this.isError = false;
-    //       // Let Angular update the UI before navigating
-    //       setTimeout(()=>{
-    //         this.router.navigate(['/dashboard']);
-    //       },5000)
-   
-    //     },
-    //     error: () => {
-    //       this.isError = true;
-    //     }
-    //   });
-    // }
+    try {
+    const token = this.activatedRoute.snapshot.queryParamMap.get('token');
+    if (token) {
+      const decodedToken = jwtDecode(token) as { type: string, sub: string };
+      if (decodedToken.type === "email_verification") {
+        this.email = decodedToken.sub;
+        this.authService.verifyEmail(token).subscribe({
+          next: (res) => {
+            this.state = "success";
+            this.title = "Email Verified!";
+            this.message = "Your account is now active. You’ll be redirected shortly.";
+            setTimeout(()=>{
+              this.router.navigateByUrl("/dashboard");
+            },3000)
+          },
+          error: (err) => {
+            alert("Verification Failed! Invalid or corrupted verification link.")
+            this.state = "error";
+            this.title = "Verification Failed!";
+            this.message = "This link is invalid or expired.";
+          }
+        });
+      }}
+  } catch (e) {
+    console.error("Invalid token", e);
+    alert("Verification Failed! Invalid or corrupted verification link.");
+    this.state = "error";
+    this.title = "Verification Failed!";
+    this.message = "Invalid or corrupted verification link.";
   }
+
+  }
+
 
   resendVerificationEmail(){
-    console.log("works");
-    this.loaderService.show("fullscreen","spinner");
-    this.authService.resendVerifyEmail(this.email).subscribe({
-      next: () => {
-        this.loaderService.hide();
-        this.modalService.show("Verification Email Sent","A new verification email has been sent. Please check your inbox.");
-      },
-      error: () =>{
-        this.loaderService.hide();
-        this.modalService.show("Failed to Resend Email","We couldn't resend the verification email. Please try again later.");
-      }
-    })
-  }
-
-  submitResetPasswordFrom(){
-    this.submitted = true;
-    const formValues = this.signupForm.value;
-    this.password = formValues.password;
-    this.confirmPasswrod = formValues.confirmPasswrod;
-
-    // Reset errors
-    this.passwordError = this.confirmPasswordError = "";
-
-    // Validate empty fields
-    const emptyErrors = validateEmptyFields(formValues, "new-password");
-    Object.assign(this, emptyErrors);
-    if (Object.keys(emptyErrors).length > 0) return;
-
-    // Validate syntax
-    const syntaxErrors = validateSyntax(formValues, "new-password");
-    Object.assign(this, syntaxErrors);
-    if (Object.keys(syntaxErrors).length > 0) return;
-
-    this.loaderService.show("fullscreen","spinner")
-    const token = this.route.snapshot.queryParamMap.get('token');
-    if(token!=null && token != ""){
-      this.authService.resetPassword(token,this.password).subscribe({
-        next: (res) =>{
-          this.loaderService.hide();
-          alert("nice")
+      this.showLoader();
+      this.authService.resendVerifyEmail(this.email).subscribe({
+        next: (res)=>{
+          this.hideLoader();
+          this.showModal("Verify Your Email",`We sent a verification link to ${this.email}. Check your inbox!`);
         },
-        error: err => {
-          this.loaderService.hide();
-          let error = JSON.stringify(err.error);
-          let errorResponse = JSON.parse(error);
-          console.log(errorResponse);
-          const validationErrors = validateActualData(errorResponse, "new-password");
-          Object.assign(this, validationErrors)
-        },
-        complete: () => { console.log('Done'); }
+        error: (err)=>{
+          this.hideLoader();
+          this.showModal("Verification Link Send Fail!",`Verification link send fail. Try again.`);
+        }
       })
-    }else{
-      this.loaderService.hide();
-      alert("token error");
-    }
-
-   
-
-  
-
-    
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  showModal(title:string,message:string) {
+    this.modal.show(title, message);
+  }
+  
+  showLoader() {
+    this.loaderService.show('fullscreen', 'spinner');
+  }
+  
+  hideLoader(){
+    this.loaderService.hide(); 
   }
 
 }
-

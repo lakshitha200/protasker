@@ -1,4 +1,4 @@
-package com.protasker.protasker_backend.dto;
+package com.protasker.protasker_backend.dto.AuthDto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PasswordResetDTO {
+public class PasswordResetDto {
 
     @NotBlank(message = "Token is required")
     private String token;

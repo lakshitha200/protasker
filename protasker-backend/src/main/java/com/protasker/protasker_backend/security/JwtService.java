@@ -14,8 +14,8 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
@@ -74,18 +74,16 @@ public class JwtService {
 
     // validate JWT token
     public boolean validateToken(String token){
-        System.out.println("Validate token");
-        Jwts.parser()
-                .verifyWith((SecretKey) key())
-                .build()
-                .parse(token);
-        return true;
-
+            Jwts.parser()
+                    .verifyWith((SecretKey) key())
+                    .build()
+                    .parse(token);
+            return true;
     }
 
     public RefreshToken findByToken(String token) {
         return refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new TokensException("Refresh token not found"));
+                .orElseThrow(() -> new TokensException("Refresh token not found", HttpStatus.BAD_REQUEST));
     }
 
     public void deleteByToken(String token) {
@@ -113,7 +111,7 @@ public class JwtService {
     public String extractAccessTokenFromCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
-            throw new CookieException("Jwt Service: No cookies found in request!");
+            throw new CookieException("No cookies found in request!");
         }
         for (Cookie cookie : cookies) {
             if ("access_token".equals(cookie.getName())) {

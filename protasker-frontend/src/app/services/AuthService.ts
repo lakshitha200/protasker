@@ -8,6 +8,7 @@ import { LoginRequest } from '../models/LoginRequest';
 import { AuthResponse } from '../models/AuthResponse';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
+import { PasswordRestRequest } from '../models/PasswordResetRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -100,7 +101,7 @@ export class AuthService {
   
   
   getCurrentUser(): Observable<any> {
-    return this.http.get<any>('http://localhost:8080/api/user/current-user');
+    return this.http.get<any>('http://localhost:8080/api/user/current-user',{ withCredentials: true });
   }
   
   // getRefreshToken(refreshToken: string): Observable<AuthResponse> {
@@ -112,7 +113,7 @@ export class AuthService {
   }
 
   verifyEmail(token: string | null): Observable<any>{
-    return this.http.get<any>(this.verifyEmailUrl+"?token="+token);
+    return this.http.post<any>(this.verifyEmailUrl,{token});
   }
 
   resendVerifyEmail(email: string): Observable<any>{
@@ -123,8 +124,8 @@ export class AuthService {
     return this.http.post<any>(this.forgotPasswordUrl,{email});
   }
 
-  resetPassword(token: string, newPassword:string): Observable<any>{
-    return this.http.post<any>(this.resetPasswordUrl,{token,newPassword});
+  resetPassword(data: PasswordRestRequest): Observable<any>{
+    return this.http.post<any>(this.resetPasswordUrl,data);
   }
 
   getTest():Observable<any>{
