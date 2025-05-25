@@ -32,7 +32,7 @@ export class SignInComponent implements OnInit{
   ngOnInit(): void {
     const reason = this.activatedRoute.snapshot.queryParamMap.get("reason");
     if(reason){
-      this.modal.show("Login Error","This email is already registered with a local account. Please log in using your email and password or use an another account.")
+      this.modal.show("Login Error","This email is already registered with a local account. Please log in using your email and password or use an another account.",false)
     }
   }
 
@@ -121,7 +121,7 @@ export class SignInComponent implements OnInit{
   }
   //-----------------------------------
    showModal(title:string,message:string) {
-    this.modal.show(title, message);
+    this.modal.show(title, message,false);
   }
 
   // show and hide Sprinner (loader)

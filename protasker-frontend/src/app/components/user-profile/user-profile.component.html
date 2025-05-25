@@ -2,29 +2,34 @@
     <!-- Profile Header -->
     <div class="profile-header">
         <div class="profile-avatar">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User Avatar">
+            <img [src]="profilePicture ?? defaultProfilePicture" alt="User Avatar" (error)="profilePicture = defaultProfilePicture">
         </div>
         <div class="profile-info">
-            <h1 class="profile-name">Sarah Johnson</h1>
-            <p class="profile-title">Senior Project Manager</p>
-            
+            <div class="d-flex align-items-center gap-2">
+                <h1 class="profile-name" *ngIf="activeUser.firstName && activeUser.lastName">{{activeUser.firstName}}
+                    {{activeUser.lastName}}</h1>
+                <h6 style="color: var(--accent);">&#64;{{activeUser.username}}</h6>
+            </div>
+
+            <p class="profile-title" *ngIf="activeUser.position">{{activeUser.position}}</p>
+
             <div class="profile-meta">
                 <div class="meta-item">
                     <i class="fas fa-envelope"></i>
-                    sarah.johnsoncompany.com
+                    {{activeUser.email}}
                 </div>
-                <div class="meta-item">
+                <div class="meta-item" *ngIf="activeUser.phoneNumber">
                     <i class="fas fa-phone"></i>
-                    (555) 123-4567
+                    {{activeUser.phoneNumber}}
                 </div>
-                <div class="meta-item">
+                <div class="meta-item" *ngIf="activeUser.department">
                     <i class="fas fa-users"></i>
-                    Team: Product Development
+                    Team: {{activeUser.department}}
                 </div>
             </div>
-            
+
             <div class="profile-actions">
-                <button class="btn edit-btn">
+                <button class="btn edit-btn" (click)="updateFormOpen()">
                     <i class="fas fa-edit"></i> Edit Profile
                 </button>
                 <button class="btn settings-btn">
@@ -33,7 +38,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Main Content -->
     <div class="profile-content">
         <!-- Left Column - Basic Info -->
@@ -42,34 +47,31 @@
                 <h3 class="section-title">Basic Information</h3>
                 <div class="info-item">
                     <div class="info-label">Department</div>
-                    <div class="info-value">Product Development</div>
+                    <div class="info-value">{{activeUser.department}}</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Position</div>
-                    <div class="info-value">Senior Project Manager</div>
+                    <div class="info-value">{{activeUser.position}}</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Joined Date</div>
-                    <div class="info-value">March 15, 2018</div>
+                    <div class="info-value">{{joinDate}}</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">Last Active</div>
-                    <div class="info-value">Today, 10:45 AM</div>
+                    <div class="info-value">{{lastLogin}}</div>
                 </div>
             </div>
-            
+
             <div class="basic-info-card">
                 <h3 class="section-title">Skills & Expertise</h3>
                 <div class="skills-list">
-                    <span class="skill-tag">Project Management</span>
-                    <span class="skill-tag">Agile Scrum</span>
-                    <span class="skill-tag">Risk Analysis</span>
-                    <span class="skill-tag">JIRA</span>
-                    <span class="skill-tag">Team Leadership</span>
-                    <span class="skill-tag">Stakeholder Mgmt</span>
+                    <ng-container  *ngFor="let skill of showSkills">
+                        <span class="skill-tag">{{skill}}</span>
+                    </ng-container>
                 </div>
             </div>
-            
+
             <div class="basic-info-card">
                 <h3 class="section-title">Quick Stats</h3>
                 <div class="info-item">
@@ -86,7 +88,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Right Column - Activity & Projects -->
         <div>
             <div class="activity-card">
@@ -95,7 +97,7 @@
                     <div class="activity-tab">Notifications</div>
                     <div class="activity-tab">Messages</div>
                 </div>
-                
+
                 <ul class="activity-list">
                     <li class="activity-item">
                         <div class="activity-icon">
@@ -103,7 +105,8 @@
                         </div>
                         <div class="activity-content">
                             <div class="activity-title">Completed project phase</div>
-                            <div class="activity-desc">You marked "Design Phase" as complete on E-commerce Platform</div>
+                            <div class="activity-desc">You marked "Design Phase" as complete on E-commerce Platform
+                            </div>
                             <div class="activity-meta">
                                 <span class="activity-project">E-commerce Platform</span>
                                 <span class="activity-time">2 hours ago</span>
@@ -138,7 +141,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="projects-card">
                 <h3 class="section-title">Current Projects (6)</h3>
                 <div class="projects-grid">
@@ -176,6 +179,146 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- User Update Modal -->
+<div *ngIf="isOpen" class="modal-overlay">
+    <div class="modal-box">
+        <span class="close-btn" (click)="close()">&times;</span>
+
+        <div class="update-profile-header">
+            <h2>Profile Settings</h2>
+        </div>
+        <!-- Forms Container -->
+        <div class="form-box mt-4">
+            <!-- update Form -->
+            <form (ngSubmit)="submitUserUpdateFrom()" #userUpdateForm="ngForm">
+                <!-- Profile Picture Section -->
+                <div class="section-title">Profile Picture</div>
+                <div class="avatar-upload">
+                    <img [src]="imagePreview ?? updateDP" alt="Profile" class="avatar-preview" id="avatar-preview"
+                    (error)="imagePreview = updateDP || defaultProfilePicture">
+
+                    <div>
+                        <!-- Add file input that's hidden -->
+                        <input type="file" id="avatar-upload-input" accept="image/jpeg, image/png" style="display: none;" 
+                        name="profilePicture" ngModel (change)="handleFileInput($event)" #imageUploader>
+                        <button type="button"  class="avatar-upload-btn" (click)="uploadProfileImage($event)">Upload New Photo</button>
+                        <button type="button" class="remove-avatar" (click)="removeImage()">Remove</button>
+                        <div class="hint">JPG or PNG, max 5MB</div>
+                    </div>
+                </div>
+
+                <!-- Firstname and lastname -->
+                <div class="section-title">Basic Information</div>
+                <div class="d-flex gap-2">
+                    <div class="w-100">
+                        <div class="input-group">
+                            <label>First Name</label>
+                            <input type="text" class="input-field" placeholder="First Name" name="firstName" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')"
+                             [(ngModel)]="activeUser.firstName" required>
+                        </div>
+                        <!-- <p class="error-message" *ngIf="submitted && usernameError">
+                            <small>{{ usernameError }}</small>
+                        </p> -->
+                    </div>
+
+                    <div class="w-100">
+                        <div class="input-group">
+                            <label>Last Name</label>
+                            <input type="text" class="input-field" placeholder="Last Name" name="lastName" oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '')"
+                            [(ngModel)]="activeUser.lastName" required>
+                        </div>
+                        <!-- <p class="error-message" *ngIf="submitted && emailError">
+                            <small>{{ emailError }}</small>
+                        </p> -->
+                    </div>
+
+                </div>
+
+                <!-- Department and position -->
+                <div class="d-flex gap-2">
+                    <div class="w-100">
+                        <div class="input-group">
+                            <label>Department</label>
+                            <input type="text" class="input-field" placeholder="Department" name="department"
+                             [(ngModel)]="activeUser.department"   required>
+
+                            <!-- <select id="department" name="department">
+                                <option>Select Department</option>
+                                <option selected>Engineering</option>
+                                <option>Marketing</option>
+                                <option>Human Resources</option>
+                                <option>Finance</option>
+                            </select> -->
+                        </div>
+                        <!-- <p class="error-message" *ngIf="submitted && emailError">
+                            <small>{{ emailError }}</small>
+                        </p> -->
+                    </div>
+
+                    <div class="w-100">
+                        <div class="input-group">
+                            <label>Position</label>
+                            <input type="text" class="input-field" placeholder="Position" name="position"
+                             [(ngModel)]="activeUser.position"   required>
+
+                            <!-- <label for="position">Position</label>
+                            <select id="position">
+                                <option>Select Position</option>
+                                <option selected>Frontend Developer</option>
+                                <option>Backend Developer</option>
+                                <option>Product Manager</option>
+                                <option>UX Designer</option>
+                            </select> -->
+                        </div>
+                        <!-- <p class="error-message" *ngIf="submitted && emailError">
+                            <small>{{ emailError }}</small>
+                        </p> -->
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="section-title">Contact Information</div>
+                <div class="w-50">
+                    <div class="input-group">
+                        <label>Phone Number</label>
+                        <input type="number" class="input-field" placeholder="Phone Number" name="phoneNumber"
+                         [(ngModel)]="activeUser.phoneNumber"   required>
+                    </div>
+                    <!-- <p class="error-message" *ngIf="submitted && emailError">
+                    <small>{{ emailError }}</small>
+                </p> -->
+                </div>
+
+                <!-- Skills -->
+                <div class="section-title">Skills</div>
+                <div class="w-100">
+                    <div class="input-group">
+                        <label>Add Skills</label>
+                        <input type="text" class="input-field" placeholder="Type a skill and press Enter" name="skills"
+                            ngModel required [(ngModel)]="newSkill" (keydown.enter)="addSkill($event)">
+                    </div>
+                    <!-- <p class="error-message" *ngIf="submitted && emailError">
+                    <small>{{ emailError }}</small>
+                </p> -->
+                    <div class="skills-container">
+                        <div class="skill-tag d-flex align-items-center" *ngFor="let skill of showSkills; let i = index">
+                        {{ skill }}
+                        <button (click)="removeSkill(i)">×</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button class="btn btn-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-save" [disabled]="!userUpdateForm.dirty">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

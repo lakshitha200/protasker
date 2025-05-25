@@ -3,6 +3,7 @@ package com.protasker.protasker_backend.service.UserService.UserServiceImpl;
 import com.protasker.protasker_backend.constants.UserConstants;
 import com.protasker.protasker_backend.dto.GenericResponseDto;
 import com.protasker.protasker_backend.dto.UserDto.*;
+import com.protasker.protasker_backend.exception.CusExceptions.FileStorageException;
 import com.protasker.protasker_backend.exception.CusExceptions.UserAlreadyExistsException;
 import com.protasker.protasker_backend.exception.CusExceptions.UserNotFoundException;
 import com.protasker.protasker_backend.exception.CusExceptions.UserServiceException;
@@ -17,11 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Files;
 
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -56,6 +59,7 @@ public class UserServiceImpl implements UserService {
                 .isActive(user.getIsActive())
                 .userType(user.getUserType())
                 .lastLogin(user.getLastLogin())
+                .createdAt(user.getCreatedAt())
                 .build();
 
     }
@@ -132,6 +136,7 @@ public class UserServiceImpl implements UserService {
                 ).toList();
     }
 
+    @Transactional
     @Override
     public GenericResponseDto updateEmail(String userID, UpdateEmailDto emailDto) {
         User user = userRepository.findByUserId(userID)
@@ -152,6 +157,7 @@ public class UserServiceImpl implements UserService {
                 .code(HttpStatus.CREATED).build();
     }
 
+    @Transactional
     @Override
     public GenericResponseDto updatePassword(String userID, UpdatePasswordDto passwordDto) {
         User user = userRepository.findByUserId(userID)
@@ -167,6 +173,7 @@ public class UserServiceImpl implements UserService {
                 .code(HttpStatus.CREATED).build();
     }
 
+    @Transactional
     @Override
     public GenericResponseDto updateUsername(String userID, UpdateUsernameDto usernameDto) {
         if(usernameDto.getUsername()!=null && userRepository.existsByUsername(usernameDto.getUsername())){
@@ -185,39 +192,82 @@ public class UserServiceImpl implements UserService {
                 .code(HttpStatus.CREATED).build();
     }
 
+    @Transactional
     @Override
     public GenericResponseDto uploadProfilePicture(String userID, MultipartFile file) {
-        Path rootLocation = Paths.get("uploads/profile-pictures");
+        if (userID == null || userID.isBlank()) {
+            throw new IllegalArgumentException("User ID cannot be empty");
+        }
+        User user = userRepository.findByUserId(userID)
+                .orElseThrow(() -> new UserNotFoundException("User not found with the userId: "+userID));
 
-        // Validate file
-        if (file.isEmpty()) {
-            throw new IllegalArgumentException("User Service: File cannot be empty");
+        // File validation
+        validateFile(file);
+        String fileName = "";
+
+        try {
+            Path rootLocation = Paths.get("D:/Bit project/ProTasker/protasker-frontend/public/uploads/profile-pictures");
+            fileName = userID + "_" + System.currentTimeMillis() +
+                    file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+
+            System.out.println("------filename: "+fileName);
+            // Save file locally
+            if (!Files.exists(rootLocation)) {
+                Files.createDirectories(rootLocation);
+            }
+            Path targetPath = rootLocation.resolve(fileName).normalize();
+            InputStream inputStream = file.getInputStream();
+            Files.copy(inputStream, targetPath, StandardCopyOption.REPLACE_EXISTING);
+
+            // Clean up old file
+            if (user.getProfilePicture() != null) {
+                String oldFileName = user.getProfilePicture().substring(user.getProfilePicture().lastIndexOf('/') + 1);
+                System.out.println("oldFileName: "+oldFileName);
+
+                if(oldFileName.startsWith(userID + "_")){
+                    System.out.println("yes");
+                    Path oldImagePath = rootLocation.resolve(oldFileName).normalize();
+                    System.out.println("oldImagePath: "+oldImagePath);
+                    if (oldImagePath.startsWith(rootLocation.normalize())) {
+                        System.out.println("111");
+                        Files.deleteIfExists(oldImagePath);
+                        System.out.println("workssss");
+                    }
+                    System.out.println("lolddd");
+                }
+
+            }
+        } catch (IOException e) {
+            throw new FileStorageException(e.getMessage(), e);
+        }
+
+        // Update user
+        String fileUrl = "/uploads/profile-pictures/" + fileName;
+        user.setProfilePicture(fileUrl);
+        userRepository.save(user);
+
+        return GenericResponseDto.builder()
+                .response("Profile picture uploaded successfully")
+                .code(HttpStatus.CREATED)
+                .build();
+
+    }
+
+    private void validateFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be empty");
         }
         if (!file.getContentType().startsWith("image/")) {
-            throw new IllegalArgumentException("User Service: Only images are allowed");
+            throw new IllegalArgumentException("Only images are allowed");
+        }
+        if (file.getSize() > 5 * 1024 * 1024) {
+            throw new IllegalArgumentException("File size exceeds 5MB limit");
         }
 
-        String fileName = userID + "_" + System.currentTimeMillis() +
-                file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-
-        // Save file locally
-        try {
-            Files.createDirectories(rootLocation); // Create directory if not exists
-            Path targetPath = rootLocation.resolve(fileName);
-            System.out.println("targetPath: "+targetPath);
-            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-
-            // Save URL to database
-            String fileUrl = "/uploads/profile-pictures/" + fileName;
-            User user = userRepository.findByUserId(userID)
-                    .orElseThrow(() -> new UserNotFoundException("UserService: User not found with user-id: " + userID));
-            user.setProfilePicture(fileUrl);
-            userRepository.save(user);
-
-            return GenericResponseDto.builder().response("UserService: Profile picture uploaded successfully")
-                    .code(HttpStatus.CREATED).build();
-        } catch (IOException e) {
-            throw new UserServiceException("Failed to save profile picture: " + e.getMessage());
+        String originalFilename = file.getOriginalFilename();
+        String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+        if (!Arrays.asList("jpg", "jpeg", "png").contains(extension)) {
+            throw new IllegalArgumentException("Only JPG, JPEG, PNG images are allowed");
         }
     }
 }

@@ -24,6 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           return authService.getRefreshToken().pipe(
             switchMap(() => next(req)), // Retry original request (cookies auto-send)
             catchError((refreshErr) => {
+              console.log(err);
               // Redirect to login if refresh fails
               authService.logout();
               router.navigate(['/sign-in']);

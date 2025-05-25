@@ -1,5 +1,6 @@
 package com.protasker.protasker_backend.exception.GlobalExceptions;
 
+import com.protasker.protasker_backend.exception.CusExceptions.FileStorageException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -97,5 +98,17 @@ public class GenericExceptionHandler {
         problem.setDetail(ex.getMessage());
         return problem;
 
+    }
+
+
+    @ExceptionHandler(FileStorageException.class)
+    public ProblemDetail handleFileStorageException(FileStorageException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problem.setTitle("File Storage Operation Failed");
+        problem.setDetail("Could not complete file operation: " + ex.getMessage());
+        problem.setProperty("errorCode", "FILE_STORAGE_ERROR");
+        problem.setProperty("timestamp", Instant.now());
+
+        return problem;
     }
 }

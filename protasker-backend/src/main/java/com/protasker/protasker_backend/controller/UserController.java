@@ -22,9 +22,8 @@ public class UserController {
 
     @GetMapping("/current-user")
     public ResponseEntity<UserDto> getCurrentUser(Principal principal) {
-        System.out.println("works");
+        System.out.println("/current-user works");
         String username = principal.getName();
-        System.out.println("Username: "+username);
         return ResponseEntity.ok( userService.findByUsername(username));
     }
 
@@ -38,27 +37,27 @@ public class UserController {
         return new ResponseEntity<List<UserDto>> (userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @PatchMapping("/{userID}")
+    @PutMapping("/{userID}")
     public ResponseEntity<GenericResponseDto> updateUser(@PathVariable String userID, @RequestBody UpdateUserDto updateUserDto) {
-        return new ResponseEntity<>(userService.updateUser(userID,updateUserDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.updateUser(userID,updateUserDto),HttpStatus.OK);
     }
 
     @PutMapping("/{userID}/email")
     public ResponseEntity<GenericResponseDto> updateEmail(@PathVariable String userID, @RequestBody UpdateEmailDto emailDto) {
-        return new ResponseEntity<>(userService.updateEmail(userID,emailDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.updateEmail(userID,emailDto),HttpStatus.OK);
     }
 
     @PutMapping("/{userID}/password")
     public ResponseEntity<GenericResponseDto> updatePassword(@PathVariable String userID, @RequestBody UpdatePasswordDto passwordDto) {
-        return new ResponseEntity<>(userService.updatePassword(userID,passwordDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.updatePassword(userID,passwordDto),HttpStatus.OK);
     }
 
     @PutMapping("/{userID}/username")
     public ResponseEntity<GenericResponseDto> updateUsername(@PathVariable String userID, @RequestBody UpdateUsernameDto usernameDto) {
-        return new ResponseEntity<>(userService.updateUsername(userID,usernameDto),HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.updateUsername(userID,usernameDto),HttpStatus.OK);
     }
 
-    @PatchMapping("/{userID}/profile-picture")
+    @PutMapping("/{userID}/profile-picture")
     public ResponseEntity<GenericResponseDto> updateProfilePicture(
             @PathVariable String userID,
             @RequestParam("file") @Valid MultipartFile file) {
