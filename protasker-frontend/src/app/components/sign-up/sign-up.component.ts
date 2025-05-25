@@ -75,7 +75,7 @@ export class SignUpComponent{
   }
 
   showModal(title:string,message:string) {
-    this.modal.show(title, message);
+    this.modal.show(title, message,false);
   }
 
   // show and hide Sprinner (loader)

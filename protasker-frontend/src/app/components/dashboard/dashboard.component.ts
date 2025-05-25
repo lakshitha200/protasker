@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/AuthService';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,18 +9,15 @@ import { AuthService } from '../../services/AuthService';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit{
+
+  private currentUserSubject = new BehaviorSubject<any>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
+
   constructor(private authService:AuthService ){}
 
   ngOnInit(): void {
-    this.authService.getCurrentUser().subscribe({
-      next: response => {
-        console.log(response);
-      },
-      error: err => {
-        let error = JSON.stringify(err.error);
-        let errorResponse = JSON.parse(error);
-        console.log(errorResponse);
-      }
-    })
+   this.authService.fetchCurrentUser().subscribe();
   }
+
+  
 }

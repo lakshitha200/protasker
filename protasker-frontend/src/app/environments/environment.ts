@@ -9,4 +9,7 @@ export const environment = {
     resendVerifyEmailUrl: "http://localhost:8080/api/auth/resend-verification",
     forgotPasswordUrl: "http://localhost:8080/api/auth/forgot-password",
     resetPasswordUrl: "http://localhost:8080/api/auth/reset-password",
+
+    updateUserUrl: "http://localhost:8080/api/user",
+    
   };

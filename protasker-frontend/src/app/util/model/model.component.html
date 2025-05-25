@@ -3,9 +3,13 @@
 <!-- Modal -->
 <div *ngIf="modal.isOpen" class="modal-overlay" (click)="modal.hide()">
     <div class="modal-box">
-      <span class="close-btn" (click)="modal.hide()">&times;</span>
+      <span class="close-btn float-end" (click)="modal.hide()">&times;</span>
       <h5>{{modal.title}}</h5>
       <p>{{modal.message}}</p>
-      <button class="btn" (click)="modal.hide()">Close</button>
+      <div class="float-end d-flex gap-2">
+         <button class="btn" (click)="modal.respond(true)" *ngIf="modal.typeConfirm">Yes</button>
+        <button class="btn" (click)="modal.hide()">Close</button>
+      </div>
+      
     </div>
 </div>

@@ -2,7 +2,6 @@ package com.protasker.protasker_backend.service.NotificationService;
 
 import com.protasker.protasker_backend.constants.AuthConstants;
 import com.protasker.protasker_backend.exception.CusExceptions.EmailException;
-import com.protasker.protasker_backend.service.AuthService;
 import com.protasker.protasker_backend.utils.EmailTemplates;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

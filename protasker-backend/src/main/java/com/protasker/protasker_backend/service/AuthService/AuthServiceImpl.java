@@ -116,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
                     .secure(false)    // Ensures the cookie is only sent over HTTPS(true)
                     .path("/")       // The cookie will be available for all paths
                     .sameSite("Lax")  // Prevents the cookie from being sent in cross-origin requests
-                    .maxAge(7 * 24 * 60 * 60)  // Access token expiration time (15 minutes)
+                    .maxAge(15 * 60)  // Access token expiration time (15 minutes)
                     .build();
 
             ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
@@ -148,6 +148,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public GenericResponseDto refreshToken(HttpServletRequest request, HttpServletResponse response) {
+//        String rToken = ;
+//        if(rToken )
         RefreshToken token = jwtService.findByToken(jwtService.extractRefreshTokenFromCookies(request));
         System.out.println("Token: "+ token);
         if (token.getToken()==null || token.getToken().isEmpty() || jwtService.isTokenExpired(token)) {
@@ -276,14 +278,27 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean checkAuthStatus(HttpServletRequest request) {
-        boolean isValid = jwtService.validateToken(jwtService.extractAccessTokenFromCookies(request));
-        System.out.println("isValid: "+isValid);
-        return isValid;
+        String token = jwtService.extractAccessTokenFromCookies(request);
+        boolean isValid = false;
+        if(token!=null){
+            isValid = jwtService.validateToken(token);
+            return isValid;
+        }else{
+            String rToken = jwtService.extractRefreshTokenFromCookies(request);
+            if(rToken!=null){
+                isValid = jwtService.validateToken(rToken);
+                return isValid;
+            }else{
+                System.out.println("checkAuthStatus isValid----: "+isValid);
+                return isValid;
+            }
+        }
     }
 
     private String generateUserId() {
         // Get the current year and month
-        String yearMonth = String.format("%02d", java.time.LocalDate.now().getYear() % 100) + String.format("%02d", java.time.LocalDate.now().getMonthValue());
+        String yearMonth = String.format("%02d", java.time.LocalDate.now
+                ().getYear() % 100) + String.format("%02d", java.time.LocalDate.now().getMonthValue());
 
         // Generate random characters (digits and letters)
         Random random = new Random();

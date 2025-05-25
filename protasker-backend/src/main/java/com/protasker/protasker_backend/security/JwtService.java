@@ -101,7 +101,7 @@ public class JwtService {
         }
         for (Cookie cookie : cookies) {
             if ("refresh_token".equals(cookie.getName())) {
-                System.out.println("cookie.getName()) refresh: "+cookie.getName());
+                System.out.println("extractRefreshTokenFromCookies refresh cookie-----: " + cookie.getValue());
                 return cookie.getValue();
             }
         }
@@ -115,7 +115,7 @@ public class JwtService {
         }
         for (Cookie cookie : cookies) {
             if ("access_token".equals(cookie.getName())) {
-                System.out.println("cookie.getName()) access: "+cookie.getName());
+                System.out.println("extractAccessTokenFromCookies access cookie-----: " + cookie.getValue());
                 return cookie.getValue();
             }
         }

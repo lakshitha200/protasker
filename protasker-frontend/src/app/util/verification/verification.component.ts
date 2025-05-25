@@ -72,7 +72,7 @@ export class VerificationComponent implements OnInit {
   }
 
   showModal(title:string,message:string) {
-    this.modal.show(title, message);
+    this.modal.show(title, message,false);
   }
   
   showLoader() {
