@@ -1,0 +1,109 @@
+/* Phase Content */
+.phase-container {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 3px 10px var(--box-shadow1);
+    margin-bottom: 2rem;
+}
+
+.phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray);
+    width: 100%;
+}
+
+.phase-header div{
+    max-width: 80%;
+}
+.phase-header div p{
+    font-size: 14px;
+    color: var(--text-medium);
+}
+
+.phase-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.phase-status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-planned {
+    background-color: rgba(108, 92, 231, 0.1);
+    color: var(--primary);
+}
+
+/* .status-in-progress {
+    background-color: rgba(253, 203, 110, 0.151);
+    color: #ff8800;
+} */
+
+ .status-in-progress {
+    background-color: rgba(87, 154, 255, 0.151);
+    color: #1e95e4;
+ }
+
+.status-completed {
+    background-color: rgba(0, 184, 148, 0.1);
+    color: var(--success);
+}
+
+/* Reusable Content Blocks */
+.content-block {
+    margin-bottom: 1.5rem;
+}
+
+.block-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.block-title i {
+    margin-right: 8px;
+    color: var(--primary);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}

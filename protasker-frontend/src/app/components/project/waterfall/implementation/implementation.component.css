@@ -1,0 +1,302 @@
+/* Phase Content */
+.phase-container {
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 3px 10px var(--box-shadow1);
+    margin-bottom: 2rem;
+}
+
+.phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray);
+    width: 100%;
+}
+
+.phase-header div{
+    max-width: 80%;
+}
+.phase-header div p{
+    font-size: 14px;
+    color: var(--text-medium);
+}
+
+.phase-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.phase-status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.status-planned {
+    background-color: rgba(108, 92, 231, 0.1);
+    color: var(--primary);
+}
+
+.status-in-progress {
+    background-color: rgba(253, 203, 110, 0.151);
+    color: #ff8800;
+}
+
+.status-completed {
+    background-color: rgba(0, 184, 148, 0.1);
+    color: var(--success);
+}
+
+/* Reusable Content Blocks */
+.content-block {
+    margin-bottom: 1.5rem;
+}
+
+.block-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.block-title i {
+    margin-right: 8px;
+    color: var(--primary);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-outline {
+    background: white;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Table */
+
+        :root {
+            /* Light theme */
+            --primary: #7968ff;
+            --secondary: #a29bfe;
+            --accent: #FF00CC;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --light2: rgb(236, 236, 236);
+            --black: #000;
+            --white: #fff;
+            --bgwhite: #fff;
+            --text1: #636e72;
+            --text2: #999;
+            --box-shadow1: rgba(0,0,0,0.05);
+            --hover1: #5945ec;
+            --hover2: rgb(225, 225, 225);
+            --hover3: #f8fafc;
+        }
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: var(--light);
+            color: #1e293b;
+            padding: 20px;
+        }
+
+        /* ===== Table Styles ===== */
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .search-box {
+            padding: 8px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            width: 250px;
+            font-size: 14px;
+            background-color: var(--white);
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .user-table th {
+            background: var(--white);
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .user-table td {
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: --d;
+        }
+
+        .user-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .user-table tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ===== User Badge Styles ===== */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            font-size: 13px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* ===== Status Badges ===== */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .status-inactive {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .status-pending {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        /* ===== Action Buttons ===== */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-edit {
+            background: #e0e7ff;
+            color: #4f46e5;
+        }
+
+        .btn-edit:hover {
+            background: #c7d2fe;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        .btn-delete:hover {
+            background: #fecaca;
+        }
+
+        /* ===== Responsive Table ===== */
+        @media (max-width: 768px) {
+            .user-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .search-box {
+                width: 180px;
+            }
+        }

@@ -73,6 +73,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: all 0.3s ease-out;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .notification-item::before {
@@ -107,6 +108,7 @@
     background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
     font-size: 1.1rem;
     transition: all 0.3s ease-out;
+    
 }
 
 .notification-item:hover .notification-icon {
@@ -162,7 +164,7 @@
     padding: 10px 20px;
     background: var(--bg-white);
     border-radius: 20px;
-    box-shadow: 0 5px 15px var(--box-shadow1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;

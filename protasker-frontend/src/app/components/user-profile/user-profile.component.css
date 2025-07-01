@@ -14,7 +14,7 @@
     height: 150px;
     border-radius: 50%;
     border: 5px solid white;
-    box-shadow: var(--card-shadow);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     background: #dfe6e9;
 }
@@ -81,7 +81,7 @@
 .settings-btn {
     background-color: var(--bg-white);
     color: var(--text-dark);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Main Content */
@@ -102,7 +102,7 @@
     background: var(--bg-white);
     border-radius: 10px;
     padding: 1.5rem;
-    box-shadow: var(--card-shadow);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
 
@@ -148,7 +148,7 @@
     background: var(--bg-white);
     border-radius: 10px;
     padding: 1.5rem;
-    box-shadow: var(--card-shadow);
+       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
 
@@ -228,7 +228,7 @@
     background: var(--bg-white);
     border-radius: 10px;
     padding: 1.5rem;
-    box-shadow: var(--card-shadow);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .projects-grid {
@@ -256,7 +256,7 @@
 
 .project-role {
     font-size: 0.8rem;
-    color: #636e72;
+    color: var(--primary);
 }
 
 .project-meta {
@@ -264,7 +264,7 @@
     justify-content: space-between;
     font-size: 0.8rem;
     margin-top: 0.8rem;
-    color: #b2bec3;
+    color: var(--text-medium);
 }
 
 /* Responsive */

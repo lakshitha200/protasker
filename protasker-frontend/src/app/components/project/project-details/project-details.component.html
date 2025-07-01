@@ -1,0 +1,210 @@
+<div class="project-container">
+    <!-- Project Header -->
+    <div class="project-header">
+        <div class="d-flex justify-content-between w-100 align-items-center">
+            <div>
+                <span class="project-methodology methodology-waterfall">Waterfall</span>
+            </div>
+            <div class="project-actions">
+                <button class="project-action-btn edit-btn">
+                    <i class="fas fa-edit"></i> Edit Project
+                </button>
+                <button class="project-action-btn complete-btn">
+                    <i class="fas fa-check"></i> Complete Project
+                </button>
+                <button class="project-action-btn delete-btn bg-danger text-white">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+
+        <div  class=" project-title-container">
+            <h1 class="project-title">E-commerce Platform Development</h1>
+            <div class="project-lead">
+                <img src="uploads/profile-pictures/USR-2505-S043K_1748076738623.png" alt="Project Lead">
+                <span>Led by Lakshitha Fernando <br>
+                    <span style="color: var(--accent);font-size: 14px; font-weight: 500;">Project Manager</span>
+                </span>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Project Meta -->
+    <div class="project-meta">
+        <div class="meta-card">
+            <h3>Start Date</h3>
+            <p>May 15, 2025</p>
+        </div>
+        <div class="meta-card">
+            <h3>Due Date</h3>
+            <p>September 30, 2023</p>
+        </div>
+        <div class="meta-card go-phase">
+            <h3 class="text-white">Current Phase</h3>
+            <p style="color: yellow;">Design</p>
+            <span style="font-size: 14px;" class="text-white">Go to Project Phase <i
+                    class="fa-solid fa-arrow-right"></i></span>
+        </div>
+    
+
+    </div>
+
+    <!-- Project Tabs -->
+    <div class="project-tabs d-flex gap-3 mt-3 mb-5 flex-wrap">
+        <button class="btn btn-primary"><i class="fa-solid fa-file-pdf"></i> Reports & Documents</button>
+        <button class="btn btn-warning"><i class="fa-solid fa-users"></i> Meetings</button>
+        <button class="btn btn-success"><i class="fa-solid fa-coins"></i> Budget Manage</button>
+          <button class="btn btn-danger">
+            <i class="fa-solid fa-triangle-exclamation"></i> Issue Tracking
+            <span class="badge text-bg-light text-danger mx-2" style="border-radius: 50%; padding: 5px 7px;">4</span>
+        </button>
+    </div>
+    <!-- Project Overview -->
+    <div class="project-overview mt-3">
+        <!-- Main Content -->
+        <div class="project-content">
+            <!-- Key Metrics -->
+            <h3 class="section-title"><i class="fas fa-chart-line"></i> Key Metrics</h3>
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h5>20% Overall Progress</h5>
+                     <div class="progress">
+                        <div class="progress-bar" style="width: 20%;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <h3 class="section-title"><i class="fas fa-chart-pie"></i> Progress Visualization</h3>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h4>Phase Completion</h4>
+                    <div class="chart-placeholder">
+                        <app-charts [chartType]="'bar'" [chartData]="phaseData" [chartOptions]="phaseOptions"></app-charts>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Budget vs. Actual</h4>
+                    <div class="chart-placeholder">
+                        <app-charts [chartType]="'bar'" [chartData]="budgetData"></app-charts>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Task Status (Total Tasks: 87)</h4>
+                    <div class="chart-placeholder">
+                        <app-charts [chartType]="'doughnut'" [chartData]="projectStatusdata"></app-charts>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <h4>Team Task Distribution</h4>
+                    <div class="chart-placeholder test">
+                        <app-charts [chartType]="'bar'" [chartData]="teamTaskdata"></app-charts>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Timeline -->
+            <h3 class="section-title"><i class="fas fa-history"></i> Recent Activity</h3>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Today, 10:30 AM</div>
+                    <div class="timeline-content">
+                        <strong>Sithum Dhananjaya</strong> completed task "Product Page Design"
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Yesterday, 3:45 PM</div>
+                    <div class="timeline-content">
+                        <strong>Lakshitha Fernando</strong> uploaded the latest SRS document
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">Jun 12, 2:00 PM</div>
+                    <div class="timeline-content">
+                        <strong>Lakshitha Fernando</strong> scheduled a Design Review meeting
+                    </div>
+                </div>
+            </div>
+             <button class="btn btn-sm text-light w-100 mt-2" style="background-color: var(--primary);">See
+                        All</button>
+        </div>
+
+        <div class="d-flex w-100 justify-content-between gap-3 mt-3">
+
+            <!-- Project Team -->
+            <div class="project-content w-100">
+                <h3 class="section-title"><i class="fas fa-users"></i> Team Members</h3>
+                <div class="team-list">
+                    <div class="team-member">
+                        <div class="member-avatar">LF</div>
+                        <div class="member-info">
+                            <div class="member-name">Lakshitha Fernando</div>
+                            <div class="member-role">Project Manager</div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">SD</div>
+                        <div class="member-info">
+                            <div class="member-name">Sithum Dhananjaya</div>
+                            <div class="member-role">UI/UX Designer</div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="member-avatar">GR</div>
+                        <div class="member-info">
+                            <div class="member-name">Gauravi Ranasigha</div>
+                            <div class="member-role">Frontend Developer</div>
+                        </div>
+                    </div>
+                </div>
+                  <button class="btn btn-sm text-light w-100 mt-3" style="background-color: var(--primary);">See
+                        All</button>
+
+            </div>
+
+            <!-- Upcoming Milestones -->
+            <div class="project-content w-100">
+                <h3 class="section-title"><i class="fas fa-flag-checkered"></i> Upcoming Deadlines</h3>
+                <div class="deadline-list">
+                        <div class="deadline-item ">
+                            <div class="deadline-date">
+                                <span class="day">15</span>
+                                <span class="month">JUN</span>
+                            </div>
+                            <div class="deadline-info mt-2">
+                                <h4>Client Demo</h4>
+                                <p>Project:<span style="color: var(--primary-light);"> E-commerce PD</span> </p>
+                            </div>
+                            <div class="deadline-actions">
+                                <button class="action-btn"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                        </div>
+                        <div class="deadline-item">
+                            <div class="deadline-date urgent">
+                                <span class="day">22</span>
+                                <span class="month">JUN</span>
+                            </div>
+                            <div class="deadline-info">
+                                <h4>Design Phase Completion</h4>
+                                <p>Project: <span style="color: var(--primary-light);">E-commerce PD</span></p>
+                            </div>
+                            <div class="deadline-actions">
+                                <button class="action-btn"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm text-light w-100 mt-2" style="background-color: var(--primary);">See
+                        All</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,227 @@
+/* Header */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+.section-content{
+    z-index: 1000;
+}
+.header-title h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-left: 20px;
+    margin-bottom: 0.25rem;
+}
+
+.header-title .breadcrumbs {
+    margin-left: 20px;
+    color: var(--text-medium);
+}
+
+.section-header-actions {
+    display: flex;
+    gap: 1rem;
+}
+.back-btn{
+    color: var(--primary);
+    background-color: #ffffff;
+}
+
+.breadcrumbs {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.breadcrumbs span {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+/* Header-end */
+
+ .form-container {
+    background-color:  var(--bg-white);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    box-shadow: 0 5px 15px var(--box-shadow1);
+}
+
+.form-grid {
+    margin-bottom: 2rem;
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: var(--primary);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+ .form-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--bg-white);
+    color: var(--text-dark);
+}
+.form-control::placeholder{
+    color: var(--text-dark);
+}
+.form-select{
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: var(--bg-white);
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.team-members {
+    margin-top: 1.5rem;
+}
+
+.member-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background-color: var(--light);
+    border-radius: var(--radius);
+    margin-bottom: 0.75rem;
+}
+
+.member-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.member-info {
+    flex: 1;
+}
+
+.member-name {
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.member-role {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.remove-member {
+    color: var(--danger);
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 1rem;
+}
+
+.add-member-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--primary);
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.5rem 0;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-light);
+}
+
+.btn {
+    padding: 0.625rem 1.25rem;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    border: 1px solid var(--primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-light);
+    border-color: var(--primary-light);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--text-light);
+}
+
+.btn-outline:hover {
+    background-color: transparent;
+    color: var(--dark);
+    border: 1px solid var(--dark);
+}
+
+/* Budget & Expense Styles */
+.budget-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.budget-amount {
+    font-weight: 600;
+    font-size: 1.125rem;
+}
+
+.budget-currency {
+    color: var(--gray);
+    font-size: 0.875rem;
+}

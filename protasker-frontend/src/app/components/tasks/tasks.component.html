@@ -1,0 +1,130 @@
+<div class="container">
+    <div class="task-header">
+        <div class="header-title">
+            <h2>All Tasks</h2>
+            <p>Manage all your tasks in one place</p>
+        </div>
+        <div class="task-actions">
+            <button class="btn btn-outline">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+            <button class="btn btn-primary" style="background-color: var(--accent);">
+                <i class="fas fa-plus"></i> New Task
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label>Workspace</label>
+            <select>
+                <option>All Workspaces</option>
+                <option>Website Redesign</option>
+                <option>Marketing Team</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Project</label>
+            <select>
+                <option>All Projects</option>
+                <option>E-commerce Platform</option>
+                <option>Mobile App Update</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Priority</label>
+            <select>
+                <option>All priorities</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Status</label>
+            <select>
+                <option>All Statuses</option>
+                <option value="TODO">To Do</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="DONE">Done</option>
+            </select>
+        </div>
+
+
+    </div>
+
+    <!-- Task List -->
+    <div class="task-list">
+        <div class="task-list-header">
+            <div></div>
+            <div>Task</div>
+            <div>Priority</div>
+            <div>Status</div>
+            <div class="hide-on-md">Due Date</div>
+            <div class="hide-on-md">Assignee</div>
+            <div>Actions</div>
+        </div>
+
+        <!-- Sample Task Items -->
+        <div class="task-item">
+            <div class="task-checkbox">
+                <input type="checkbox">
+            </div>
+            <div class="task-title" onclick="openTaskModal(1)">Implement user authentication module</div>
+            <div class="task-priority priority-high">High</div>
+            <div class="task-status status-in-progress">In Progress</div>
+            <div class="task-dates hide-on-md">2025-06-25</div>
+            <div class="task-assignee hide-on-md">
+                <div class="assignee-avatar">SS</div>
+                <span>Sadeesh</span>
+            </div>
+            <div class="task-actions">
+                <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="action-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                <button class="action-btn" title="Delete"> <i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </div>
+
+        <div class="task-item">
+            <div class="task-checkbox">
+                <input type="checkbox">
+            </div>
+            <div class="task-title" onclick="openTaskModal(2)">Design database schema for inventory</div>
+            <div class="task-priority priority-medium">Medium</div>
+            <div class="task-status status-todo">To Do</div>
+            <div class="task-dates hide-on-md">2025-06-20</div>
+            <div class="task-assignee hide-on-md">
+                <div class="assignee-avatar">DP</div>
+                <span>Dewni</span>
+            </div>
+            <div class="task-actions">
+                <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="action-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                    <button class="action-btn" title="Delete"> <i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </div>
+
+        <div class="task-item">
+            <div class="task-checkbox">
+                <input type="checkbox">
+            </div>
+            <div class="task-title" onclick="openTaskModal(3)">Write API documentation</div>
+            <div class="task-priority priority-low">Low</div>
+            <div class="task-status status-done">Done</div>
+            <div class="task-dates hide-on-md">2025-06-22</div>
+            <div class="task-assignee hide-on-md">
+                <div class="assignee-avatar">AM</div>
+                <span>Ashen</span>
+            </div>
+            <div class="task-actions">
+                <button class="action-btn" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="action-btn" title="Delete"><i class="fas fa-trash"></i></button>
+                    <button class="action-btn" title="Delete"> <i class="fas fa-ellipsis-v"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
