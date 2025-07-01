@@ -1,246 +1,268 @@
 <div class="project-container">
-    <!-- Dashboard Header -->
-    <div class="project-header">
-        <div class="header-title">
-            <h2>All Projects</h2>
-            <p>Manage all your projects in one place</p>
-        </div>
-        <div class="project-actions">
-            <button class="new-project-btn">
-                <i class="fas fa-plus"></i> New Project
-            </button>
-            <div class="btn-group view-toggle" role="group" aria-label="Basic example">
-                <button type="button" class="btn view-option active">Cards</button>
-                <button type="button" class="btn view-option">Table</button>
-                <button type="button" class="btn view-option">Calendar</button>
-              </div>
-        </div>
-    </div>
+    <router-outlet></router-outlet>
 
-    <!-- Project Filters -->
-    <div class="project-filters">
-        <button class="btn filter-btn active">All Projects</button>
-        <button class="btn filter-btn">Agile</button>
-        <button class="btn filter-btn">Waterfall</button>
-        <button class="btn filter-btn">Standard</button>
-        <button class="btn filter-btn">Completed</button>
-        <!-- <button class="filter-btn filter-all active">All Projects</button>
-        <button class="filter-btn filter-agile">Agile</button>
-        <button class="filter-btn filter-waterfall">Waterfall</button>
-        <button class="filter-btn filter-standard">Standard</button>
-        <button class="filter-btn filter-completed">Completed</button> -->
-    </div>
-
-    <!-- Projects Grid -->
-    <div class="projects-grid">
-        <!-- Agile Project -->
-        <div class="project-card agile">
-            <div class="project-banner agile">
-                <span class="project-methodology">Agile Scrum</span>
+    <ng-container *ngIf="showProjectPage">
+        <!-- Dashboard Header -->
+        <div class="project-header">
+            <div class="header-title">
+                <h2>All Projects</h2>
+                <p>Manage all your projects in one place</p>
             </div>
-            <div class="project-content">
-                <div class="project-header">
-                    <h3 class="project-title">E-commerce Platform</h3>
-                    <div class="project-team">
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team Member">
-                        </div>
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team Member">
-                        </div>
-                        <div class="team-avatar">+2</div>
-                    </div>
-                </div>
-                <p class="project-description">
-                    Development of new e-commerce platform with React frontend and Node.js backend.
-                </p>
-                
-                <!-- Agile Specific Elements -->
-                <div class="agile-metrics">
-                    <div class="agile-metric">
-                        <div class="metric-value">12</div>
-                        <div class="metric-label">Done</div>
-                    </div>
-                    <div class="agile-metric">
-                        <div class="metric-value">5</div>
-                        <div class="metric-label">In Progress</div>
-                    </div>
-                    <div class="agile-metric">
-                        <div class="metric-value">8</div>
-                        <div class="metric-label">To Do</div>
-                    </div>
-                </div>
-                
-                <div class="sprint-progress">
-                    <div class="progress-text">
-                        <span>Sprint #5 Progress</span>
-                        <span>65%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 65%;"></div>
-                    </div>
-                </div>
-                
-                <div class="project-footer">
-                    <div class="project-due">
-                        <i class="fas fa-clock"></i>
-                        Due in 7 days
-                    </div>
-                    <div class="project-actions-menu">
-                        <i class="fas fa-ellipsis-h"></i>
+            <div class="project-actions">
+                <button class="btn new-project-btn">
+                    <i class="fas fa-plus"></i> New Project
+                </button>
+                <div class="filter-workspace">
+                    <div class="dropdown">
+                        <button class="btn btn-filter dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Filter By Workspace
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Workspace 1</a></li>
+                            <li><a class="dropdown-item" href="#">Workspace 2</a></li>
+                            <li><a class="dropdown-item" href="#">Workspace 3</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Waterfall Project -->
-        <div class="project-card waterfall">
-            <div class="project-banner waterfall">
-                <span class="project-methodology">Waterfall</span>
-            </div>
-            <div class="project-content">
-                <div class="project-header">
-                    <h3 class="project-title">Mobile App Launch</h3>
-                    <div class="project-team">
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Team Member">
-                        </div>
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Team Member">
-                        </div>
-                    </div>
-                </div>
-                <p class="project-description">
-                    Complete development and launch of fitness tracking mobile application.
-                </p>
-                
-                <!-- Waterfall Specific Elements -->
-                <div class="waterfall-phases">
-                    <div class="waterfall-phase">
-                        <div class="phase-status completed"></div>
-                        <div class="phase-info">
-                            <div class="phase-name">Requirements</div>
-                            <div class="phase-date">Completed Mar 15</div>
-                        </div>
-                    </div>
-                    <div class="waterfall-phase">
-                        <div class="phase-status completed"></div>
-                        <div class="phase-info">
-                            <div class="phase-name">Design</div>
-                            <div class="phase-date">Completed Apr 2</div>
-                        </div>
-                    </div>
-                    <div class="waterfall-phase">
-                        <div class="phase-status current"></div>
-                        <div class="phase-info">
-                            <div class="phase-name">Implementation</div>
-                            <div class="phase-date">Due May 20</div>
-                        </div>
-                    </div>
-                    <div class="waterfall-phase">
-                        <div class="phase-status pending"></div>
-                        <div class="phase-info">
-                            <div class="phase-name">Testing</div>
-                            <div class="phase-date">Starts May 21</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="project-footer">
-                    <div class="project-due">
-                        <i class="fas fa-clock"></i>
-                        Launch: Jun 15
-                    </div>
-                    <div class="project-actions-menu">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                </div>
-            </div>
+        <!-- Project Filters -->
+        <div class="project-filters">
+            <button class="btn filter-btn active">All Projects</button>
+            <button class="btn filter-btn">Agile</button>
+            <button class="btn filter-btn">Waterfall</button>
+            <button class="btn filter-btn">Standard</button>
+            <button class="btn filter-btn">Completed</button>
         </div>
 
-        <!-- Standard Project -->
-        <div class="project-card standard">
-            <div class="project-banner standard">
-                <span class="project-methodology">Standard</span>
-            </div>
-            <div class="project-content">
-                <div class="project-header">
-                    <h3 class="project-title">Marketing Campaign</h3>
-                    <div class="project-team">
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Team Member">
+        <!-- Projects Grid -->
+        <div class="projects-grid">
+            <!-- Agile Project -->
+            <div class="project-card agile">
+                <div class="project-banner agile">
+                    <div class="states">
+                        <span class="project-workspace">Workspace 01</span>
+                        <span class="project-methodology">Agile Scrum</span>
+                    </div>
+                    
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <h3 class="project-title">E-commerce Platform</h3>
+                        <div class="project-team">
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Team Member">
+                            </div>
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Team Member">
+                            </div>
+                            <div class="team-avatar">+2</div>
                         </div>
-                        <div class="team-avatar">+3</div>
                     </div>
-                </div>
-                <p class="project-description">
-                    Q2 digital marketing campaign including social media and email marketing.
-                </p>
-                
-                <!-- Standard Project Progress -->
-                <div class="sprint-progress" style="margin-top: 1.5rem;">
-                    <div class="progress-text">
-                        <span>Overall Progress</span>
-                        <span>42%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 42%;"></div>
-                    </div>
-                </div>
-                
-                <div class="project-footer">
-                    <div class="project-due">
-                        <i class="fas fa-clock"></i>
-                        Due in 14 days
-                    </div>
-                    <div class="project-actions-menu">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    <p class="project-description">
+                        Development of new e-commerce platform with React frontend and Node.js backend.
+                    </p>
 
-        <!-- Completed Project -->
-        <div class="project-card completed">
-            <div class="project-banner completed">
-                <span class="project-methodology">Completed</span>
-            </div>
-            <div class="project-content">
-                <div class="project-header">
-                    <h3 class="project-title">Website Redesign</h3>
-                    <div class="project-team">
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Team Member">
+                    <!-- Agile Specific Elements -->
+                    <div class="agile-metrics">
+                        <div class="agile-metric">
+                            <div class="metric-value">12</div>
+                            <div class="metric-label">Done</div>
                         </div>
-                        <div class="team-avatar">
-                            <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Team Member">
+                        <div class="agile-metric">
+                            <div class="metric-value">5</div>
+                            <div class="metric-label">In Progress</div>
+                        </div>
+                        <div class="agile-metric">
+                            <div class="metric-value">8</div>
+                            <div class="metric-label">To Do</div>
                         </div>
                     </div>
-                </div>
-                <p class="project-description">
-                    Complete redesign of corporate website with new content structure.
-                </p>
-                
-                <div class="sprint-progress" style="margin-top: 1.5rem;">
-                    <div class="progress-text">
-                        <span>Final Status</span>
-                        <span>100%</span>
+
+                    <div class="sprint-progress">
+                        <div class="progress-text">
+                            <span>Sprint #5 Progress</span>
+                            <span>65%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 65%;"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 100%;"></div>
-                    </div>
-                </div>
-                
-                <div class="project-footer">
-                    <div class="project-due">
-                        <i class="fas fa-check-circle"></i>
-                        Completed Apr 28
-                    </div>
-                    <div class="project-actions-menu">
-                        <i class="fas fa-ellipsis-h"></i>
+
+                    <div class="project-footer">
+                        <div class="project-due">
+                            <i class="fas fa-clock"></i>
+                            Due in 7 days
+                        </div>
+                        <div class="project-actions-menu">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Waterfall Project -->
+            <div class="project-card waterfall">
+                <div class="project-banner waterfall">
+                    <div class="states">
+                        <span class="project-workspace">Workspace 01</span>
+                        <span class="project-methodology">Waterfall</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <h3 class="project-title">Mobile App Launch</h3>
+                        <div class="project-team">
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Team Member">
+                            </div>
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Team Member">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Complete development and launch of fitness tracking mobile application.
+                    </p>
+
+                    <!-- Waterfall Specific Elements -->
+                    <div class="waterfall-phases">
+                        <div class="waterfall-phase">
+                            <div class="phase-status completed"></div>
+                            <div class="phase-info">
+                                <div class="phase-name">Requirements</div>
+                                <div class="phase-date">Completed Mar 15</div>
+                            </div>
+                        </div>
+                        <div class="waterfall-phase">
+                            <div class="phase-status completed"></div>
+                            <div class="phase-info">
+                                <div class="phase-name">Design</div>
+                                <div class="phase-date">Completed Apr 2</div>
+                            </div>
+                        </div>
+                        <div class="waterfall-phase">
+                            <div class="phase-status current"></div>
+                            <div class="phase-info">
+                                <div class="phase-name">Implementation</div>
+                                <div class="phase-date">Due May 20</div>
+                            </div>
+                        </div>
+                        <div class="waterfall-phase">
+                            <div class="phase-status pending"></div>
+                            <div class="phase-info">
+                                <div class="phase-name">Testing</div>
+                                <div class="phase-date">Starts May 21</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-footer">
+                        <div class="project-due">
+                            <i class="fas fa-clock"></i>
+                            Launch: Jun 15
+                        </div>
+                        <div class="project-actions-menu">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Standard Project -->
+            <div class="project-card standard">
+                <div class="project-banner standard">
+                    <div class="states">
+                        <span class="project-workspace">Workspace 01</span>
+                        <span class="project-methodology">Standard</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <h3 class="project-title">Marketing Campaign</h3>
+                        <div class="project-team">
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Team Member">
+                            </div>
+                            <div class="team-avatar">+3</div>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Q2 digital marketing campaign including social media and email marketing.
+                    </p>
+
+                    <!-- Standard Project Progress -->
+                    <div class="sprint-progress" style="margin-top: 1.5rem;">
+                        <div class="progress-text">
+                            <span>Overall Progress</span>
+                            <span>42%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 42%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-footer">
+                        <div class="project-due">
+                            <i class="fas fa-clock"></i>
+                            Due in 14 days
+                        </div>
+                        <div class="project-actions-menu">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Completed Project -->
+            <div class="project-card completed">
+                <div class="project-banner completed">
+                    <div class="states">
+                        <span class="project-workspace">Workspace 01</span>
+                        <span class="project-methodology">Standard</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <div class="project-header">
+                        <h3 class="project-title">Website Redesign</h3>
+                        <div class="project-team">
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Team Member">
+                            </div>
+                            <div class="team-avatar">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Team Member">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="project-description">
+                        Complete redesign of corporate website with new content structure.
+                    </p>
+
+                    <div class="sprint-progress" style="margin-top: 1.5rem;">
+                        <div class="progress-text">
+                            <span>Final Status</span>
+                            <span>100%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="project-footer">
+                        <div class="project-due">
+                            <i class="fas fa-check-circle"></i>
+                            Completed Apr 28
+                        </div>
+                        <div class="project-actions-menu">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
         </div>
-    </div>
+    </ng-container>
+
 </div>

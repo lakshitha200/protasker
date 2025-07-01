@@ -4,6 +4,7 @@
     padding: 20px 15px;
     width: 100%;
     overflow-y: auto !important;
+    padding: 2rem;
 }
 
 /* Header */
@@ -20,6 +21,7 @@
 }
 
 .header-title p {
+       margin-left: 20px;
     color: var(--text-medium);
 }
 
@@ -32,7 +34,6 @@
     background: var(--accent);
     color: white;
     border: none;
-    padding: 0.8rem 1.5rem;
     border-radius: 8px;
     font-weight: 600;
     cursor: pointer;
@@ -44,29 +45,31 @@
 .new-project-btn i {
     margin-right: 0.5rem;
 }
-
-.view-toggle {
-    background: var(--bg-white);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.view-option {
-    padding: 0.7rem 1.2rem;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s ease;
-
-}
-.view-option:hover {
-    background: var(--primary);
+.btn-filter{
+    background-color: var(--primary);
     color: white;
 }
-.view-option.active {
-    background: var(--primary);
+.new-project-btn, .btn-filter{
+    padding: 8px 15px;
+}
+.dropdown-menu{
+    background-color: var(--bg-light);
+    border: 1px solid var(--light-ash);
+    width: 100%;
+    padding: 0 !important;
+}
+.dropdown-item{
+    padding: 8px 10px !important;
+    border-bottom: 1px solid var(--light-ash);
+    color: var(--text-dark);
+    font-size: 14px;
+}
+.dropdown-menu li:last-child .dropdown-item{
+    border-bottom: none;
+}
+.dropdown-item:hover{
     color: white;
+    background-color: var(--primary);
 }
 
 /* Project Filters */
@@ -83,9 +86,10 @@
 
 .filter-btn {
     border-radius: 50px;
-    border: 1px solid var(--dark);
+    border: 1px solid var(--light-ash);
     outline: none;
-    background: var(--bg-white);
+    background: transparent;
+    color: var(--text-medium);
     font-size: 14px;
     cursor: pointer;
     font-weight: 500;
@@ -111,11 +115,11 @@
 }
 
 .project-card {
-    background: white;
+    background: var(--bg-white);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: var(--card-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px var(--box-shadow1);
 }
 
 .project-card:hover {
@@ -124,36 +128,49 @@
 }
 
 .project-banner {
-    height: 120px;
+    height: 50px;
     position: relative;
 }
 
 .project-banner.agile {
-    background: linear-gradient(135deg, var(--agile), #a29bfe);
+    background: #a29bfe;
 }
 
 .project-banner.waterfall {
-    background: linear-gradient(135deg, var(--waterfall), #55efc4);
+    background: #55efc4;
 }
 
 .project-banner.standard {
-    background: linear-gradient(135deg, var(--standard), #74b9ff);
+    background: #74b9ff;
 }
 
 .project-banner.completed {
-    background: linear-gradient(135deg, var(--completed), #b2bec3);
+    background: #b2bec3;
 }
-
-.project-methodology {
+.states{
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.7rem;
+    right: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.states .project-methodology{
     background: rgba(255,255,255,0.9);
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
+    color: #3b3b3b;
+}
+.project-workspace{
+    font-size: 0.7rem;
+    padding: 0.3rem 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-style: italic;
+    color: white;
 }
 
 .project-content {
@@ -196,7 +213,7 @@
 }
 
 .project-description {
-    color: #636e72;
+    color: var(--text-medium);
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
     line-height: 1.5;
@@ -249,19 +266,19 @@
 }
 
 .agile .progress-fill {
-    background: var(--agile);
+    background: #a29bfe;
 }
 
 .waterfall .progress-fill {
-    background: var(--waterfall);
+    background: var(--accent);
 }
 
 .standard .progress-fill {
-    background: var(--standard);
+    background: #74b9ff;
 }
 
 .completed .progress-fill {
-    background: var(--completed);
+    background: #b2bec3;
 }
 
 /* Waterfall Specific */
@@ -280,11 +297,11 @@
 }
 
 .phase-status.completed {
-    background: var(--waterfall);
+    background: #55efc4;
 }
 
 .phase-status.current {
-    background: #fdcb6e;
+    background: var(--primary);
     animation: pulse 2s infinite;
 }
 
@@ -307,7 +324,7 @@
 }
 
 @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(253, 203, 110, 0.7); }
+    0% { box-shadow: 0 0 0 0 var(--primary); }
     70% { box-shadow: 0 0 0 8px rgba(253, 203, 110, 0); }
     100% { box-shadow: 0 0 0 0 rgba(253, 203, 110, 0); }
 }

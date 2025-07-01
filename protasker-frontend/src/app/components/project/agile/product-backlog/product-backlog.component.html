@@ -1,0 +1,137 @@
+
+    <!-- Current Phase Content -->
+    <div class="phase-container">
+        <div class="phase-header">
+            <h2 class="phase-title">Product Backlog</h2>
+            <div class="d-flex align-items-center gap-3">
+                <div class="phase-status status-in-progress">In Progress</div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Add User Story
+                </button>
+            </div>
+        </div>
+
+        <div class="content-block">
+            <!-- Backlog Controls -->
+            <div class="backlog-controls">
+                <div class="search-filter">
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search backlog...">
+                    </div>
+                    <button class="filter-btn">
+                        <i class="fas fa-filter"></i>
+                        Filter
+                    </button>
+                </div>
+                <div class="sort-options d-flex align-items-center">
+                    <span class="w-50">Sort by:</span>
+                    <select class="form-select"
+                        style="margin-left: 0.5rem; padding: 0.25rem 0.5rem; border-radius: 4px;">
+                        <option>Priority</option>
+                        <option>Story Points</option>
+                        <option>Recently Added</option>
+                    </select>
+                </div>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Type</th>
+                        <th scope="col" style="width: 100px;">Priority</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Points</th>
+                        <th scope="col">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td style="text-align: left;">
+                            <div class="story-title">User Login</div>
+                            <div class="story-desc">As a user, I want to log in with email and password so I can access
+                                my account</div>
+                        </td>
+                        <td><span class="story-type type-feature">Feature</span></td>
+                        <td>
+                            <div class="priority priority-high">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>High</span>
+                            </div>
+                        </td>
+                         <td><div>Approved</div></td>
+                        <td><span class="story-points">5</span></td>
+                        <td>
+                            <div class="actions">
+                            <button class="action-btn">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>1</td>
+                        <td style="text-align: left;">
+                            <div class="story-title">User Login</div>
+                            <div class="story-desc">As a user, I want to log in with email and password so I can access
+                                my account</div>
+                        </td>
+                        <td><span class="story-type type-bug">Bug</span></td>
+                        <td>
+                            <div class="prioritypriority-medium">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Medium</span>
+                            </div>
+                        </td>
+                         <td><div>Approved</div></td>
+                        <td><span class="story-points">5</span></td>
+                        <td>
+                            <div class="actions">
+                            <button class="action-btn">
+                                <i class="far fa-edit"></i>
+                            </button>
+                            <button class="action-btn">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- This content changes based on phase -->
+        <div class="content-block">
+            <h3 class="block-title"><i class="fas fa-paperclip"></i> Code Repository</h3>
+            <div class="file-upload">
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <div class="upload-text">Drag & drop files here or click to browse</div>
+                <div class="upload-hint">Max. file size: 25MB</div>
+            </div>
+            <div class="file-list">
+                <div class="file-item">
+                    <i class="fas fa-file-code file-icon"></i>
+                    <span>frontend-repo.zip</span>
+                </div>
+                <div class="file-item">
+                    <i class="fab fa-github file-icon"></i>
+                    <span>https://github.com/project/repo</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-outline">Save Progress</button>
+            <button class="btn btn-primary">Mark Phase Complete</button>
+        </div>
+    </div>
+

@@ -1,7 +1,7 @@
 /* ===== Base Styles ===== */
 
 * {
-    font-family: 'Poppins', sans-serif;
+     font-family: 'Inter', sans-serif;
 }
 
 :root {
@@ -10,15 +10,17 @@
     --primary-light: #7E76F9;
     --secondary: #a29bfe;
     --accent: #ff00cc;
+    --secondary-accent: #ff35d7;
     --dark: #2d3436;
-    --light: #e6e6e6;
-    
+    --light-ash: #e7e7e7;
+    /* --light: #e6e6e6; */
+    --light: #f5f7fa;
     --black: #000;
     --white: #fff;
     /* --bgwhite: #fff; */
     --text1: #636e72;
     --text2: #999;
-    --box-shadow1: rgba(0,0,0,0.05);
+    --box-shadow1: rgba(0,0,0,0.1);
     --hover1: #5945ec;
     --hover2: rgb(225, 225, 225);
     --hover3: #f8fafc;
@@ -33,7 +35,17 @@
     --text-medium: #6A6A8B;
     --text-light: #A5A5BA;
 
+    /* Method */
+    --warning: #f8961e;
+    --danger: #f72548;
+    --gray: #6c757d;
+    --gray-light: #dbdbdb;
+    --border: #dee2e6;
+    --success: #4cc9f0;
 
+    /* Agile */
+    --agile: #4cc9f0;
+    --waterfall: #00b894;
   }
   
   [data-theme="dark"] {
@@ -53,6 +65,8 @@
     --text-dark: #f5f6fa;
     --text-medium: #f5f6fa;
     --text-light: #f5f6fa;
+    --light-ash: rgba(255, 255, 255, 0.142) !important;
+        --border: #000000;
 
   }
   

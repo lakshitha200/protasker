@@ -4,9 +4,11 @@
     <app-sidebar *ngIf="showSideBar" (sideBarEvent)="handlesideBarEvent()"></app-sidebar>
     <div class="main-content" [class.with-sidebar]="showSideBar && !isSidebarCollapsed">
         <router-outlet ></router-outlet>
+        <app-footer *ngIf="showHeader"></app-footer>
     </div>
 </div>
 
 <!-- <app-notification-container></app-notification-container> -->
 <app-loader-sprinner></app-loader-sprinner>
 <app-model></app-model>
+

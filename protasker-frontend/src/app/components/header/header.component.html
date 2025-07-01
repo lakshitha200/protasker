@@ -1,7 +1,10 @@
 <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary px-4">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary px-4" style="position: relative;">
         <div class="container-fluid ">
-          <a class="logo"  [routerLink]="'home'"><i class="fas fa-tasks"></i>ProTasker</a>
+          <a class="logo"  [routerLink]="'home'">
+                      <img src="icons/logo3.png" alt="logo">
+            ProTasker
+          </a>
          
           <div class="nav-buttons order-lg-2 ms-auto d-flex align-items-center gap-2">
             <button class="theme-toggle" id="themeToggle" onclick="toggleTheme(this)">
@@ -16,17 +19,21 @@
           <div class="collapse navbar-collapse order-lg-1" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="#">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Solutions</a>
+                <a class="nav-link" href="#">Features</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Pricing</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Resources</a>
+                <a class="nav-link" href="#">About</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+              </li>
+              
             </ul>
           </div>
           

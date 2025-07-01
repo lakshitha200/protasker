@@ -1,0 +1,178 @@
+<div class="container">
+    <!-- Header -->
+    <div class="report-header">
+        <div class="header-title">
+            <h2>Report Center</h2>
+            <p>Manage all your reports in one place</p>
+        </div>
+        <div class="report-actions">
+            <button class="btn btn-outline">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+              <button class="btn btn-primary">
+                <i class="fa-solid fa-upload"></i> Upload
+            </button>
+            <button class="btn btn-primary" style="background-color: var(--accent);">
+                <i class="fas fa-plus"></i> New Report
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label>Workspace</label>
+            <select>
+                <option>All Workspaces</option>
+                <option>E-commerce Platform</option>
+                <option>Marketing Team</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Project</label>
+            <select>
+                <option>All Projects</option>
+                <option>Checkout Redesign</option>
+                <option>Mobile App Update</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Report Type</label>
+            <select>
+                <option>All Types</option>
+                <option>Project Progress</option>
+                <option>User Activity</option>
+                <option>Financial</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Status</label>
+            <select>
+                <option>All Statuses</option>
+                <option>Draft</option>
+                <option>Published</option>
+                <option>Archived</option>
+            </select>
+        </div>
+
+  
+    </div>
+
+    <!-- Report Grid -->
+    <div class="report-grid">
+        <!-- Report Card 1 -->
+        <div class="report-card">
+            <div class="report-thumbnail">
+                <i class="fas fa-file-pdf file-icon"></i>
+            </div>
+            <div class="report-content">
+                <h6 class="report-title">Q1 Project Progress Report</h6>
+                <div class="report-meta">
+                    <span><i class="fa-solid fa-plus" style="color: var(--danger);"></i> Created: May 15, 2025</span>
+                    <span class="report-type">PROJECT_PROGRESS</span>
+                </div>
+                <p class="report-description">Overall progress across all projects with budget analysis</p>
+                <div class="report-footer">
+                    <span class="report-status status-published">Published</span>
+                    <div class="report-actions">
+                        <button class="action-btn" onclick="showPreview('pdf')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Card 2 -->
+        <div class="report-card">
+            <div class="report-thumbnail">
+                         <i class="fas fa-file-pdf file-icon"></i>
+            </div>
+            <div class="report-content">
+                <h6 class="report-title">User Activity Metrics</h6>
+                <div class="report-meta">
+                    <span><i class="fa-solid fa-plus"  style="color: var(--danger);"></i> Created: May 10, 2025</span>
+                    <span class="report-type">USER_ACTIVITY</span>
+                </div>
+                <p class="report-description">Daily active users and feature adoption rates</p>
+                <div class="report-footer">
+                    <span class="report-status status-published">Published</span>
+                    <div class="report-actions">
+                        <button class="action-btn" onclick="showPreview('excel')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Card 4 -->
+        <div class="report-card" >
+            <div class="report-thumbnail">
+                         <i class="fas fa-file-pdf file-icon"  style="color: var(--primary);"></i>
+            </div>
+            <div class="report-content">
+                <h6 class="report-title">Sprint 12 Retrospective</h6>
+                <div class="report-meta">
+                    <span><i class="fa-solid fa-upload"  style="color: var(--primary);"></i> Upload: May 08, 2025</span>
+                    <span class="report-type">AGILE</span>
+                </div>
+                <p class="report-description">Team velocity and improvement suggestions</p>
+                <div class="report-footer">
+                    <span class="report-status status-archived">Archived</span>
+                    <div class="report-actions">
+                        <button class="action-btn" onclick="showPreview('doc')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="modal-overlay" >
+    <div class="modal-box">
+      <span class="close-btn">&times;</span>
+      <h5>Forgot Password</h5>
+      <p>Enter your email and we'll send you a reset link.</p>
+      <div class="create-form">
+      <h2>Create New Report</h2>
+      <input type="text" placeholder="Report Title (e.g. 'June Progress')" />
+      <select>
+        <option value="">Select Report Type</option>
+        <option value="PROJECT_PROGRESS">Project Progress</option>
+        <option value="USER_ACTIVITY">User Activity</option>
+        <option value="SALES">Sales</option>
+      </select>
+      <select>
+        <option value="">Schedule</option>
+        <option value="DAILY">Daily</option>
+        <option value="WEEKLY">Weekly</option>
+        <option value="ON_DEMAND">On Demand</option>
+      </select>
+      <textarea placeholder="Short Description..."></textarea>
+      <button>Generate Report</button>
+    </div>
+</div> -->
