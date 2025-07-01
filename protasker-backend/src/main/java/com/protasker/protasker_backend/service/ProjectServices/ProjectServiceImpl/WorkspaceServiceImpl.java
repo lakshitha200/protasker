@@ -57,10 +57,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
             throw new WorkspaceException("Workspace Service: "+WorkspaceConstants.WORKSPACE_CREATION_FAIL.getMessage(),e);
         }
 
-
-        // Add creator as admin
-//        addMember(workspace.getId(), user.getId(), "ADMIN");
-
         return GenericResponseDto.builder()
                 .response(WorkspaceConstants.WORKSPACE_CREATED.getMessage())
                 .code(HttpStatus.CREATED)
