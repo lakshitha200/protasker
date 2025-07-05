@@ -13,9 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TeamMemberDto {
-    private ProjectDto project;
-    private UserDto user;
-    private Role role;
-    private LocalDateTime assignedAt;
+public class ProjectTeamMemberDto  {
+    private Long id;
+    private Long projectId;
+    private Long userId;
+    private Long roleId;
+    private String assignedAt;
 }

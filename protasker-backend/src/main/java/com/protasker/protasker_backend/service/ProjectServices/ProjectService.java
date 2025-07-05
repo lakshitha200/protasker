@@ -1,17 +1,14 @@
 package com.protasker.protasker_backend.service.ProjectServices;
 
-import com.protasker.protasker_backend.dto.GenericResponseDto;
 import com.protasker.protasker_backend.dto.ProjectDto.ProjectDto;
-import com.protasker.protasker_backend.dto.ProjectDto.ProjectRequestDto;
-import com.protasker.protasker_backend.dto.ProjectDto.WorkspaceDto;
-import jakarta.validation.Valid;
+import com.protasker.protasker_backend.model.ProjectModel.Project;
 
 import java.util.List;
 
 public interface ProjectService {
-    GenericResponseDto createProject(ProjectRequestDto request);
-
-    ProjectDto getProject(String projectId);
-
-    List<ProjectDto> getAllProjects();
+    ProjectDto createProject(ProjectDto dto);
+    ProjectDto getProjectById(String projectId);
+    List<ProjectDto> getProjectsByWorkspaceId(Long workspaceId);
+    void deleteProject(String projectId);
+    ProjectDto updateProject(String projectId, ProjectDto dto);
 }

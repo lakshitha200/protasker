@@ -3,33 +3,43 @@ package com.protasker.protasker_backend.model.ProjectModel;
 import com.protasker.protasker_backend.model.Role;
 import com.protasker.protasker_backend.model.User;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "project_team_members")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "project_team_members",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {"project_id", "user_id", "role_id"}
+        ))
 public class ProjectTeamMember {
-    @EmbeddedId
-    private ProjectTeamMemberId id;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @ManyToOne
-    @JoinColumn(name = "project_id")
+    @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Id
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
     @CreationTimestamp
-    @Column(name = "assigned_at")
+    @Column(name = "assigned_at", updatable = false)
     private LocalDateTime assignedAt;
 }
 

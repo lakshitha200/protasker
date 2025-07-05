@@ -43,6 +43,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> {
                     authorize.requestMatchers("/api/auth/**").permitAll();
                     authorize.requestMatchers("/api/user/**").permitAll();
+                    authorize.requestMatchers("/api/projects/**").permitAll();
+                    authorize.requestMatchers("/api/time-tracking/**").permitAll();
+                    authorize.requestMatchers("/api/meetings/**").permitAll();
+                    authorize.requestMatchers("/api/workspaces/**").permitAll();
 //                    authorize.requestMatchers("/api/v1/test/**").permitAll();
                     authorize.requestMatchers("/oauth2/**").permitAll();
                     authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();

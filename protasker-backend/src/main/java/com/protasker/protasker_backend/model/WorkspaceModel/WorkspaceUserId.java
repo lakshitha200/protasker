@@ -1,4 +1,4 @@
-package com.protasker.protasker_backend.model.ProjectModel;
+package com.protasker.protasker_backend.model.WorkspaceModel;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

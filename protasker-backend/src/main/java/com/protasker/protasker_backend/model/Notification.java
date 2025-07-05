@@ -1,5 +1,7 @@
 package com.protasker.protasker_backend.model;
 
+import com.protasker.protasker_backend.model.enums.ProjectEnums.Channel;
+import com.protasker.protasker_backend.model.enums.ProjectEnums.Status2;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,14 +21,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Notification {
-
-    public enum Status {
-        UNREAD, READ, ARCHIVED
-    }
-
-    public enum Channel {
-        IN_APP, EMAIL, SMS, BOTH
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,7 +52,7 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private Status status = Status.UNREAD;
+    private Status2 status = Status2.UNREAD;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "channel", nullable = false, length = 20)
@@ -78,14 +72,4 @@ public class Notification {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-    // Helper method to mark as read
-    public void markAsRead() {
-        this.status = Status.READ;
-    }
-
-    // Helper method to archive
-    public void archive() {
-        this.status = Status.ARCHIVED;
-    }
 }

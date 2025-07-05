@@ -1,12 +1,11 @@
-package com.protasker.protasker_backend.model.ProjectModel;
+package com.protasker.protasker_backend.model.WorkspaceModel;
 
 import com.protasker.protasker_backend.model.User;
+import com.protasker.protasker_backend.model.enums.WorkspaceRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@ToString(exclude = {"workspace", "user"})
 @Builder
 @Table(name = "workspace_user")
 public class WorkspaceUser {
@@ -30,9 +30,17 @@ public class WorkspaceUser {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 20)
+    private WorkspaceRole role;
+
     @CreationTimestamp
-    @Column(name = "join_at")
+    @Column(name = "join_at", nullable = false, updatable = false)
     private LocalDateTime joinAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
 
 

@@ -1,6 +1,7 @@
-package com.protasker.protasker_backend.model;
+package com.protasker.protasker_backend.model.WorkspaceModel;
 
-import com.protasker.protasker_backend.model.enums.WorkspaceType;
+import com.protasker.protasker_backend.model.Client;
+import com.protasker.protasker_backend.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -63,6 +64,5 @@ public class Workspace {
             joinColumns = @JoinColumn(name = "workspace_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-//    @Builder.Default
     private Set<User> members = new HashSet<>();
 }

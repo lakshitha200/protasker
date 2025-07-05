@@ -2,6 +2,7 @@ package com.protasker.protasker_backend.dto.Notification;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.protasker.protasker_backend.model.Notification;
+import com.protasker.protasker_backend.model.enums.ProjectEnums.Channel;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -39,7 +40,7 @@ public class NotificationDTO {
     private String message;
 
     @JsonProperty("channel")
-    private Notification.Channel channel = Notification.Channel.IN_APP;
+    private Channel channel = Channel.IN_APP;
 
     @Size(max = 512, message = "Action URL must be less than 512 characters")
     @JsonProperty("action_url")

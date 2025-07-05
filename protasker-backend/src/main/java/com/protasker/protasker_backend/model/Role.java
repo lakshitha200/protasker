@@ -1,5 +1,6 @@
 package com.protasker.protasker_backend.model;
 
+import com.protasker.protasker_backend.model.ProjectModel.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,10 +22,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private String name;  // "ADMIN", "MANAGER", "DEVELOPER"
+    private RoleName name;
 
-    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "is_system_role", nullable = false)
@@ -32,8 +33,14 @@ public class Role {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "role_permissions",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn (name = "permission_id")
+    )
+    private Set<Permission> permissions = new HashSet<>();
 }

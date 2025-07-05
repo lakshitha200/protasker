@@ -25,12 +25,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String referer = request.getHeader("Referer");
-        if (referer == null || !referer.contains("localhost:4200")) {
-            // Reject or skip this request
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
+//        String referer = request.getHeader("Referer");
+//        if (referer == null || !referer.contains("localhost:4200")) {
+//            // Reject or skip this request
+//            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//            return;
+//        }
 
         String path = request.getRequestURI();
 

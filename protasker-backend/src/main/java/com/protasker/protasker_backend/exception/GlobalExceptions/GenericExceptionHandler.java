@@ -1,6 +1,7 @@
 package com.protasker.protasker_backend.exception.GlobalExceptions;
 
 import com.protasker.protasker_backend.exception.CusExceptions.FileStorageException;
+import com.protasker.protasker_backend.exception.CusExceptions.RegistrationException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -99,6 +100,17 @@ public class GenericExceptionHandler {
         return problem;
 
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ProblemDetail handleIllegalStateException(IllegalStateException exception){
+
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        problem.setTitle("Illegal State");
+        problem.setDetail(exception.getMessage());
+        problem.setProperty("timestamp", Instant.now());
+        return problem;
+    }
+
 
 
     @ExceptionHandler(FileStorageException.class)

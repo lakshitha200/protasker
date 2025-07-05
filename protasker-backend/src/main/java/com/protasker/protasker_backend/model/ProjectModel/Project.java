@@ -2,7 +2,7 @@ package com.protasker.protasker_backend.model.ProjectModel;
 
 import com.protasker.protasker_backend.model.Client;
 import com.protasker.protasker_backend.model.User;
-import com.protasker.protasker_backend.model.Workspace;
+import com.protasker.protasker_backend.model.WorkspaceModel.Workspace;
 import com.protasker.protasker_backend.model.enums.ProjectEnums.Methodology;
 import com.protasker.protasker_backend.model.enums.ProjectEnums.Priority;
 import com.protasker.protasker_backend.model.enums.ProjectEnums.ProjectStatus;
@@ -12,6 +12,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -72,11 +73,11 @@ public class Project {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private ProjectBudget budget;

@@ -1,5 +1,6 @@
 package com.protasker.protasker_backend.model;
 
+import com.protasker.protasker_backend.model.WorkspaceModel.Workspace;
 import com.protasker.protasker_backend.model.enums.Provider;
 import com.protasker.protasker_backend.model.enums.UserType;
 import com.protasker.protasker_backend.utils.JsonConverter;
@@ -71,14 +72,6 @@ public class User {
     @Column(name = "user_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles = new HashSet<>();
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin;

@@ -1,0 +1,91 @@
+//use
+Instant
+
+// Role adding
+Role role = new Role();
+role.setName(RoleName.MANAGER);
+role.setDescription(RoleName.MANAGER.getDescription());
+
+//permmisions
+-- ==== USER & ROLE MANAGEMENT ====
+('user:create', 'Create a user'),
+('user:read:any', 'View any user profile'),
+('user:read:own', 'View own profile'),
+('user:update:any', 'Update any user'),
+('user:update:own', 'Update own profile'),
+('user:delete', 'Delete a user'),
+
+('role:create', 'Create a new role'),
+('role:read', 'View roles'),
+('role:update', 'Update a role'),
+('role:delete', 'Delete a role'),
+
+('permission:assign', 'Assign permissions to roles'),
+('permission:read', 'View all permissions'),
+
+-- ==== WORKSPACES ====
+('workspace:create', 'Create a new workspace'),
+('workspace:read:any', 'View all workspaces'),
+('workspace:read:own', 'View own workspace'),
+('workspace:update:any', 'Update any workspace'),
+('workspace:update:own', 'Update own workspace'),
+('workspace:delete', 'Delete workspace'),
+
+-- ==== PROJECTS ====
+('project:create', 'Create a new project'),
+('project:read:any', 'View all projects'),
+('project:read:own', 'View own projects'),
+('project:update:any', 'Update any project'),
+('project:update:own', 'Update own project'),
+('project:delete', 'Delete a project'),
+
+-- ==== TASKS ====
+('task:create', 'Create a task'),
+('task:read:any', 'View any task'),
+('task:read:own', 'View tasks assigned to me'),
+('task:update:any', 'Update any task'),
+('task:update:own', 'Update own task'),
+('task:assign', 'Assign task to user'),
+('task:delete', 'Delete a task'),
+
+-- ==== COMMENTS ====
+('comment:add', 'Add a comment'),
+('comment:read', 'Read comments'),
+('comment:delete:any', 'Delete any comment'),
+('comment:delete:own', 'Delete own comment'),
+
+-- ==== FILES / DOCUMENTS ====
+('file:upload', 'Upload a file'),
+('file:download:any', 'Download any file'),
+('file:download:own', 'Download own files'),
+('file:delete:any', 'Delete any file'),
+('file:delete:own', 'Delete own file'),
+
+-- ==== REPORTS & AUDITS ====
+('report:generate', 'Generate system or project reports'),
+('audit:read', 'View audit logs'),
+
+-- ==== SYSTEM SETTINGS ====
+('settings:read', 'View system settings'),
+('settings:update', 'Update system configuration'),
+
+-- ==== NOTIFICATIONS ====
+('notification:read', 'Read notifications'),
+('notification:send', 'Send notifications'),
+
+-- ==== TEAMS ====
+('team:create', 'Create a new team'),
+('team:read', 'View team info'),
+('team:update', 'Update team details'),
+('team:delete', 'Delete a team'),
+('team:assign:member', 'Assign user to a team'),
+
+-- ==== CLIENT ACCESS ====
+('client:view', 'View client data'),
+('client:invite', 'Invite a client'),
+('client:revoke', 'Revoke client access')
+
+
+// stop 8080
+netstat -ano | findstr :8080
+taskkill /PID 5268 /F
